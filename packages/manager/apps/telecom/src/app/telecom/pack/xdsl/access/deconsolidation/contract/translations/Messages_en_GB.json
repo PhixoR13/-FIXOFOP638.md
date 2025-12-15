@@ -1,0 +1,12 @@
+{
+  "xdsl_access_deconsolidation_contract_title": "Confirmation",
+  "xdsl_access_deconsolidation_contract_are_you_sure": "Are you sure you want to carry out the following operation:",
+  "xdsl_access_deconsolidation_contract_modification_operation": "Total Unbundling",
+  "xdsl_access_deconsolidation_contract_modified": "on the following line: <strong>{{ serviceName }}</strong>",
+  "xdsl_access_deconsolidation_contract_number_not_transferred": "Without a PAC, your number will be lost.",
+  "xdsl_access_deconsolidation_contract_price": "This operation will cost <span class=\"text-underline\">{{ price }}</span>.",
+  "xdsl_access_deconsolidation_contract_monthlyPrice": "You are about to change your plan from partial to total unbundling. Your monthly subscription will be <span class=\"text-underline\">{{ price }}</span>/month.",
+  "xdsl_access_deconsolidation_contract_desc_agreement1": "Transferring from partial to total is a {{ engagement }}-month commitment.",
+  "xdsl_access_deconsolidation_contract_desc_agreement2": "You would like the service to be provided immediately, and acknowledge that as a result, you will not be able to exercise your right of withdrawal, in accordance with Article L. 121-21-8 of the French consumer code. Service is set up within 7 days (average time).",
+  "xdsl_access_deconsolidation_contract_desc_agreement3": "I confirm that I have read and understood the General Terms and Conditions of Sale for <a target=\"_blank\" href=\"{{ packAdslPro2013 }}\">the xDSL Express plan</a> and/or <a target=\"_blank\" href=\"{{ packAdslEnterprise2013 }}\">the Enterprise plan</a>."
+}

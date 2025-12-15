@@ -1,0 +1,125 @@
+@import '@ovh-ux/ui-kit/dist/less/_tokens';
+
+.oui-navbar {
+  // Logo
+  &__brand {
+    .navbar-logo {
+      height: 1.875rem;
+    }
+  }
+
+  // Universes
+  &-list_main {
+    .navbar-universe(web, #27b9a2);
+    .navbar-universe(cloud, #fc0);
+    .navbar-universe(telecom, #32acff);
+    .navbar-universe(sunrise, #ff9803);
+    .navbar-universe(gamma, #ff9803);
+
+    .navbar-universe(@universe-selector, @universe-color) {
+      .@{universe-selector} > .oui-navbar-link {
+        &:hover,
+        &:focus,
+        &_active {
+          color: @universe-color;
+        }
+      }
+    }
+  }
+
+  // Languages menu
+  &-menu {
+    &_language &__item_active {
+      &,
+      &:hover,
+      &:active {
+        background-color: @p-075;
+      }
+
+      .oui-navbar-link::after {
+        content: @oui-icon-index-success;
+        display: inline-block;
+        margin-left: 1.25rem;
+        margin-top: -0.1875rem;
+        vertical-align: middle;
+        font-family: 'Oui Icons', sans-serif;
+        font-size: rem-calc(14);
+        color: inherit;
+      }
+    }
+  }
+
+  // Icons
+  .navbar-icon(icon-assistance);
+  .navbar-icon(icon-notifications);
+  .navbar-icon(icon-user);
+
+  .navbar-icon(@icon-selector) {
+    .navbar-@{icon-selector} {
+      background: url('../../../assets/images/navbar/@{icon-selector}.svg')
+        no-repeat center center;
+      background-size: contain;
+
+      &.oui-icon_shake {
+        background: url('../../../assets/images/navbar/@{icon-selector}_on.svg')
+          no-repeat center center;
+      }
+    }
+
+    .oui-navbar-link {
+      &:hover,
+      &:focus,
+      &_active,
+      &[aria-expanded='true'] {
+        .navbar-@{icon-selector} {
+          background: url('../../../assets/images/navbar/@{icon-selector}_on.svg')
+            no-repeat center center;
+        }
+      }
+    }
+  }
+
+  // Logout
+  .logout > .oui-navbar-link {
+    &,
+    &:hover,
+    &:focus,
+    &_active {
+      font-weight: 600;
+      color: @ae-500;
+    }
+  }
+}
+
+.skipnav a {
+  width: 1px;
+  height: 1px;
+  position: fixed;
+  left: -100%;
+  top: auto;
+  overflow: hidden;
+  z-index: -1;
+
+  &:focus,
+  &:active {
+    width: auto;
+    height: auto;
+    left: 0.625rem;
+    top: 0.625rem;
+    overflow: auto;
+    outline-width: 1px !important;
+    outline-style: dotted !important;
+    outline-color: initial !important;
+    outline-offset: -2px !important;
+    background-color: #fff;
+    z-index: @base-z-index-tooltip;
+  }
+}
+
+.skiptarget {
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  float: right;
+  position: absolute;
+}

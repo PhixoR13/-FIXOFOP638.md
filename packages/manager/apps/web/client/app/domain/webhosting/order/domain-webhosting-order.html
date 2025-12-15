@@ -1,0 +1,27 @@
+<div data-ovh-alert="webhosting-order-alert"></div>
+
+<oui-header
+    data-heading="{{ 'domain_webhosting_order_title' | translate }}"
+    data-description="{{ 'domain_webhosting_order_description' | translate }}"
+>
+    <oui-back-button
+        data-on-click="$ctrl.trackClick($ctrl.ORDER_WEBHOSTING_TRACKING.GO_BACK); $ctrl.goBackToDashboard()"
+    >
+    </oui-back-button>
+</oui-header>
+
+<ovh-manager-web-domain-webhosting-order-steps
+    data-catalog="$ctrl.catalog"
+    data-available-offers="$ctrl.availableOffers"
+    data-get-available-modules="$ctrl.getAvailableModules(offer)"
+    data-cart-id="$ctrl.cartId"
+    data-delete-cart-items="$ctrl.deleteCartItems"
+    data-display-error-message="$ctrl.displayErrorMessage"
+    data-domain-name="$ctrl.domainName"
+    data-go-back-to-dashboard="$ctrl.goBackToDashboard"
+    data-order-webhosting="$ctrl.orderWebhosting"
+    data-prepare-checkout="$ctrl.prepareCheckout"
+    data-user="$ctrl.user"
+    data-validate-checkout="$ctrl.validateCheckout"
+>
+</ovh-manager-web-domain-webhosting-order-steps>

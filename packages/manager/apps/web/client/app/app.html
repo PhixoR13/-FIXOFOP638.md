@@ -1,0 +1,25 @@
+<div>
+    <div ui-view></div>
+    <div
+        id="currentActionApp"
+        class="modal fade currentAction"
+        role="dialog"
+        data-keyboard="false"
+        data-backdrop="static"
+    >
+        <div
+            class="modal-dialog"
+            data-ng-class="{
+                 'big-modal-dialog': bigModalDialog,
+                 'medium-modal-dialog': mediumModalDialog
+             }"
+        >
+            <div
+                id="modal-container"
+                class="modal-content"
+                data-ng-include="stepPath"
+            ></div>
+            <div id="modal-help" class="help4wizards"></div>
+        </div>
+    </div>
+</div>

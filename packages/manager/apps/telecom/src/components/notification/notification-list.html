@@ -1,0 +1,335 @@
+<div class="text-ceter" data-ng-if="NotificationListCtrl.loading">
+    <oui-spinner data-size="l"></oui-spinner>
+    <h2 data-translate="components_notification_loading"></h2>
+</div>
+
+<div
+    data-ng-if="!NotificationListCtrl.loading"
+    data-ng-repeat="smsDetail in NotificationListCtrl.smsDetails track by smsDetail.name"
+>
+    <oui-message type="warning" data-ng-if="smsDetail.creditsLeft === 0">
+        <span
+            data-translate="components_notification_sms_detail_warning"
+            data-translate-values="{smsAccount: smsDetail.name}"
+        ></span>
+    </oui-message>
+</div>
+
+<div
+    class="table-responsive-vertical"
+    data-ng-hide="NotificationListCtrl.loading"
+>
+    <button
+        class="btn btn-default mb-3"
+        type="button"
+        data-ng-click="NotificationListCtrl.addElement()"
+    >
+        <i class="oui-icon oui-icon-add mr-2" aria-hidden="true"></i>
+        <span data-translate="components_notification_add"></span>
+    </button>
+    <table class="table table-hover">
+        <thead>
+            <tr
+                class="sort"
+                data-tuc-table-sort="NotificationListCtrl.sortElements(SORT)"
+            >
+                <th scope="col">
+                    <tuc-col-sort
+                        data-field-name="type"
+                        data-title="{{:: 'table_sort' | translate}}"
+                    >
+                        <span
+                            data-ng-bind=":: 'components_notification_type' | translate"
+                        ></span>
+                    </tuc-col-sort>
+                </th>
+                <th scope="col">
+                    <tuc-col-sort
+                        data-field-name="account"
+                        data-title="{{:: 'table_sort' | translate}}"
+                    >
+                        <span
+                            data-ng-bind=":: 'components_notification_account' | translate"
+                        ></span>
+                    </tuc-col-sort>
+                </th>
+                <th scope="col">
+                    <tuc-col-sort
+                        data-field-name="contact"
+                        data-title="{{:: 'table_sort' | translate}}"
+                    >
+                        <span
+                            data-ng-bind=":: 'components_notification_contact' | translate"
+                        ></span>
+                    </tuc-col-sort>
+                </th>
+                <th scope="col">
+                    <tuc-col-sort
+                        data-field-name="frequency"
+                        data-title="{{:: 'table_sort' | translate}}"
+                    >
+                        <span
+                            data-ng-bind=":: 'components_notification_frequency' | translate"
+                        ></span>
+                    </tuc-col-sort>
+                </th>
+                <th scope="col">
+                    <tuc-col-sort
+                        data-field-name="allowIncident"
+                        data-title="{{:: 'table_sort' | translate}}"
+                    >
+                        <span
+                            data-ng-bind=":: 'components_notification_allowIncident' | translate"
+                        ></span>
+                    </tuc-col-sort>
+                </th>
+                <th scope="col">
+                    <tuc-col-sort
+                        data-field-name="downThreshold"
+                        data-title="{{:: 'table_sort' | translate}}"
+                    >
+                        <span
+                            data-ng-bind=":: 'components_notification_downThreshold' | translate"
+                        ></span>
+                    </tuc-col-sort>
+                </th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr data-ng-if="NotificationListCtrl.ngModel.length === 0">
+                <td
+                    class="text-center"
+                    colspan="4"
+                    data-translate="components_notification_noNotification"
+                ></td>
+            </tr>
+            <tr
+                data-ng-repeat="element in NotificationListCtrl.ngModel track by element.id"
+            >
+                <!-- Type -->
+                <td
+                    class="form-group"
+                    data-ng-if="!element.editMode"
+                    data-title="{{ 'components_notification_type' | translate }}"
+                >
+                    <em
+                        data-ng-class="{'fa fa-mobile': element.type === 'sms', 'fa fa-envelope-o': element.type === 'mail'}"
+                    ></em>
+                    <span
+                        data-ng-bind="'components_notification_' + element.type | translate"
+                    ></span>
+                </td>
+                <!-- Compte -->
+                <td
+                    class="form-group"
+                    data-ng-if="!element.editMode"
+                    data-title="{{ 'components_notification_account' | translate }}"
+                >
+                    <span
+                        data-ng-bind=":: element.smsAccount"
+                        data-ng-if="element.type === 'sms' "
+                    ></span>
+                </td>
+                <!-- Contact -->
+                <td
+                    class="form-group"
+                    data-ng-if="!element.editMode"
+                    data-title="{{ 'components_notification_contact' | translate }}"
+                >
+                    <span data-ng-bind="element.email || element.phone"></span>
+                </td>
+                <!-- Frequency -->
+                <td
+                    class="form-group"
+                    data-ng-if="!element.editMode"
+                    data-title="{{ 'components_notification_frequency' | translate }}"
+                >
+                    <span
+                        data-ng-bind="'components_notification_' + element.frequency |
+                        translate"
+                    ></span>
+                </td>
+                <!-- allowIncident -->
+                <td
+                    class="form-group"
+                    data-ng-if="!element.editMode"
+                    data-title="{{ 'components_notification_allowIncident' | translate }}"
+                >
+                    <span
+                        data-ng-bind="'components_notification_' + element.allowIncident |
+                        translate"
+                    ></span>
+                </td>
+                <!-- downThreshold -->
+                <td
+                    class="form-group"
+                    data-ng-if="!element.editMode"
+                    data-title="{{ 'components_notification_downThreshold' | translate }}"
+                >
+                    <span data-ng-bind="element.downThreshold"></span>
+                </td>
+                <!-- Buttons -->
+                <td
+                    class="form-group col-mobile-button-big text-center"
+                    data-ng-if="!element.editMode"
+                >
+                    <button
+                        type="button"
+                        class="btn btn-ovh-danger btn-link"
+                        title="{{'components_notification_delete' | translate}}"
+                        data-ng-really-click="NotificationListCtrl.destroyElement(element)"
+                        data-ng-really-message="{{ 'components_notification_confirm' | translate: {contact:element.phone || element.email, service: element.xdslService} }}"
+                        data-ng-really-confirm="{{ 'ok' | translate }}"
+                        data-ng-really-cancel="{{ 'cancel' | translate }}"
+                        data-ng-really-window-class="revert-really-buttons"
+                        data-ng-disabled="element.frozen"
+                    >
+                        <i class="ovh-font ovh-font-bin"></i>
+                    </button>
+                </td>
+
+                <!-- Type (edit mode)-->
+                <td
+                    data-title="{{ 'components_notification_type' | translate }}"
+                    data-ng-if="element.editMode"
+                    class="form-group"
+                >
+                    <span
+                        data-translate="components_notification_error_noSmsAccount"
+                        data-ng-if="!NotificationListCtrl.isTypeValid(element.type)"
+                        class="red"
+                    >
+                    </span>
+                    <select
+                        class="form-control"
+                        data-ng-model="element.type"
+                        data-ui-validate="'NotificationListCtrl.isTypeValid($value)'"
+                    >
+                        <option
+                            data-ng-repeat="notifType in NotificationListCtrl.types"
+                            value="{{ notifType.name }}"
+                            >{{ notifType.label | translate }}</option
+                        >
+                    </select>
+                </td>
+                <td
+                    data-title="{{ 'components_notification_account' | translate }}"
+                    data-ng-if="element.editMode"
+                    class="form-group"
+                >
+                    <div data-ng-if="element.type === 'sms' ">
+                        <div
+                            data-ng-show="NotificationListCtrl.accounts.length > 1"
+                        >
+                            <select
+                                id="account"
+                                class="form-control"
+                                data-ng-model="element.smsAccount"
+                            >
+                                <option
+                                    data-ng-repeat="account in NotificationListCtrl.accounts"
+                                    value="{{ account }}"
+                                    >{{ account | translate }}</option
+                                >
+                            </select>
+                        </div>
+                    </div>
+                </td>
+                <!-- Contact (edit mode)-->
+                <td
+                    data-title="{{ 'components_notification_contact' | translate }}"
+                    data-ng-if="element.editMode"
+                    class="form-group"
+                >
+                    <input
+                        type="email"
+                        class="form-control"
+                        data-ng-model="element.email"
+                        data-ng-hide="element.type === 'sms' "
+                    />
+                    <input
+                        type="text"
+                        class="form-control"
+                        placeholder="0033 ..."
+                        data-ng-model="element.phone"
+                        ovh-validate="phone"
+                        data-ng-show="element.type === 'sms' "
+                    />
+                </td>
+                <!-- Frequency (edit mode)-->
+                <td
+                    data-title="{{ 'components_notification_frequency' | translate }}"
+                    data-ng-if="element.editMode"
+                    class="form-group"
+                >
+                    <select
+                        class="form-control"
+                        data-ng-model="element.frequency"
+                    >
+                        <option
+                            data-ng-repeat="fre in NotificationListCtrl.frequencies"
+                            value="{{fre.name}}"
+                            >{{fre.label | translate}}</option
+                        >
+                    </select>
+                </td>
+                <!-- allowIncident (edit mode)-->
+                <td
+                    data-title="{{ 'components_notification_allowIncident' | translate }}"
+                    data-ng-if="element.editMode"
+                    class="form-group"
+                >
+                    <select
+                        class="form-control"
+                        data-ng-model="element.allowIncident"
+                    >
+                        <option
+                            data-ng-repeat="fre in NotificationListCtrl.allowIncident"
+                            value="{{fre.name}}"
+                            >{{fre.label | translate}}</option
+                        >
+                    </select>
+                </td>
+                <!-- downThreshold (edit mode)-->
+                <td
+                    data-title="{{ 'components_notification_downThreshold' | translate }}"
+                    data-ng-if="element.editMode"
+                    class="form-group"
+                >
+                    <oui-numeric
+                        min="NotificationListCtrl.downThreshold.min"
+                        max="NotificationListCtrl.downThreshold.max"
+                        model="element.downThreshold"
+                    >
+                    </oui-numeric>
+                </td>
+
+                <!-- Buttons (edit mode)-->
+                <td
+                    class="form-group actions col-mobile-button-big text-center"
+                    data-ng-if="element.editMode"
+                >
+                    <button
+                        type="submit"
+                        title="{{ 'submit' | translate }}"
+                        class="btn btn-primary"
+                        data-ng-click="NotificationListCtrl.submitElement(element)"
+                        data-ng-disabled="!element.isValid() || element.frozen"
+                    >
+                        <i class="fa fa-check"></i>
+                    </button>
+                    <button
+                        title="{{ 'cancel' | translate }}"
+                        type="reset"
+                        class="btn btn-default"
+                        data-ng-click="NotificationListCtrl.removeElement(element)"
+                        data-ng-disabled="element.frozen"
+                    >
+                        <i class="fa fa-times"></i>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

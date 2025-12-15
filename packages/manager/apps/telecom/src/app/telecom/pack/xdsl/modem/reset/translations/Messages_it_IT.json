@@ -1,0 +1,17 @@
+{
+  "xdsl_modem_reset": "Ripristina il modem",
+  "xdsl_modem_reset_ovh_config": "Ripristina la configurazione OVHcloud",
+  "xdsl_modem_reset_an_error_ocurred": "[Ripristino Modem] Si è verificato un errore!",
+  "xdsl_modem_reset_ovh_config_an_error_ocurred": "[Ripristino della configurazione OVHcloud] Si è verificato un errore!",
+  "xdsl_modem_reset_success": "Ripristino del modem in corso...",
+  "xdsl_modem_reset_ovh_config_success": "Ripristino della configurazione OVHcloud in corso...",
+  "xdsl_modem_reset_really": "Vuoi davvero reimpostare il tuo modem?",
+  "xdsl_modem_reset_ovh_config_really": "Sei sicuro di voler ripristinare la configurazione OVHcloud?",
+  "xdsl_modem_reset_success_end": "Ripristino del modem terminato. Ti preghiamo di attendere ancora qualche minuto, il tempo necessario al completamento della configurazione del tuo modem.",
+  "xdsl_modem_reset_reconf_tel": "Ripristina la configurazione VoIP",
+  "xdsl_modem_reset_reconf_tel_success": "Ripristino della configurazione VoIP in corso...",
+  "xdsl_modem_reset_reconf_tel_really": "Vuoi davvero ripristinare la configurazione VoIP?",
+  "xdsl_modem_reconf_tel_an_error_ocurred": "[Ripristino della configurazione VoIP] Si è verificato un errore!",
+  "xdsl_modem_reconf_tel_no_voip_line_found": "Nessuna linea telefonica trovata sul modem, nessuna azione necessaria.",
+  "xdsl_modem_reconf_tel_renew_already_scheduled": "Per questo pack risulta già pianificata una riconfigurazione della linea."
+}

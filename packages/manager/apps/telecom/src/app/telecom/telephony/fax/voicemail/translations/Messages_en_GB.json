@@ -1,0 +1,9 @@
+{
+  "telephony_group_fax_voicemail_back_link": "Back to voicemail management",
+  "telephony_group_fax_voicemail_action_management": "Listen to and manage messages",
+  "telephony_group_fax_voicemail_action_default": "Choose default voicemail",
+  "telephony_group_fax_voicemail_action_password": "Voicemail access password",
+  "telephony_group_fax_voicemail_action_options": "Voicemail configuration",
+  "telephony_group_fax_voicemail_action_status": "Enable/disable voicemail",
+  "telephony_group_fax_voicemail_breadcrumb": "Voicemail management"
+}

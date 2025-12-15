@@ -1,0 +1,4 @@
+{
+  "notification_explanation": "The notifications for {{ access }} access indicate when an access is no longer responding and when it returns.",
+  "notification_breadcrumb": "Alerts"
+}

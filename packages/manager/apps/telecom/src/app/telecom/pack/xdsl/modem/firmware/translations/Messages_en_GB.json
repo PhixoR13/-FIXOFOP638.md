@@ -1,0 +1,8 @@
+{
+  "xdsl_modem_firmware_description": "Modifying the firmware value is reserved for advanced users.",
+  "xdsl_modem_firmware_value": "Firmware version to install",
+  "xdsl_modem_firmware_an_error_ocurred": "FIRMWARE: An error occurred.",
+  "xdsl_modem_firmware_error": "Oops! Unable to retrieve the firmware version.",
+  "xdsl_modem_firmware_doing": "Modifying firmware version...",
+  "xdsl_modem_fimware_submit": "Confirm"
+}

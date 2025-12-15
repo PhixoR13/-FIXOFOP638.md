@@ -1,0 +1,107 @@
+<p
+    class="mb-4"
+    data-translate="hosting_tab_DOMAINS_configuration_add_step2_mode_OVH_question"
+></p>
+
+<form
+    class="form-horizontal"
+    name="domainAttacheModeOvhForm"
+    data-ng-controller="HostingDomainAttachModeOvhCtrl"
+>
+    <div
+        class="oui-field"
+        data-ng-class="{
+            'oui-field_error': domainAttacheModeOvhForm.domainAttacheModeOvhFormSelectedDomain.$dirty &&
+            (domainAttacheModeOvhForm.domainAttacheModeOvhFormSelectedDomain.$invalid || domainsAlreadyExists() || domainIsNotValid())
+        }"
+    >
+        <label
+            for="domainAttacheModeOvhFormSelectedDomain"
+            class="oui-field__label oui-label"
+            data-translate="hosting_tab_DOMAINS_configuration_add_step2_mode_OVH_domain_name"
+        >
+        </label>
+        <div class="oui-field__control w-100">
+            <div class="oui-input-group">
+                <input
+                    type="text"
+                    class="oui-input oui-input_m"
+                    id="domainAttacheModeOvhFormSelectedDomain"
+                    name="domainAttacheModeOvhFormSelectedDomain"
+                    placeholder="{{:: 'hosting_tab_DOMAINS_configuration_add_step2_mode_OVH_domain_name_placeholder' | translate }}"
+                    data-ng-model="selected.domain"
+                    data-ng-pattern="/^[a-z0-9\.\-\*]+$/"
+                />
+                <span
+                    class="oui-button oui-button_secondary"
+                    data-ng-bind="'.' + selected.baseDomain.displayName"
+                ></span>
+            </div>
+        </div>
+        <div
+            class="oui-field__error"
+            data-ng-if="domainAttacheModeOvhForm.domainAttacheModeOvhFormSelectedDomain.$error && domainAttacheModeOvhForm.domainAttacheModeOvhFormSelectedDomain.$dirty"
+        >
+            <span role="alert">
+                <span class="oui-icon oui-icon-error" aria-hidden="true"></span>
+                <span
+                    data-translate="hosting_tab_DOMAINS_configuration_add_step2_common_domain_exists"
+                    data-ng-if="domainAttacheModeOvhForm.domainAttacheModeOvhFormSelectedDomain.$dirty && domainsAlreadyExists()"
+                ></span>
+                <span
+                    data-ng-bind-html="'hosting_tab_DOMAINS_configuration_add_step2_common_domain_ssl_invalid' | translate: { t0: MAX_DOMAIN_LENGTH }"
+                    data-ng-if="domainAttacheModeOvhForm.domainAttacheModeOvhFormSelectedDomain.$dirty && domainIsNotValid()"
+                ></span>
+                <span
+                    data-ng-if="domainAttacheModeOvhForm.domainAttacheModeOvhFormSelectedDomain.$error.pattern"
+                    data-translate="hosting_tab_DOMAINS_configuration_add_step2_common_domain_invalid_character"
+                ></span>
+            </span>
+        </div>
+    </div>
+    <oui-message data-ng-if="isStartingOffer()" type="info">
+        <span
+            data-translate="hosting_tab_DOMAINS_configuration_add_step2_mode_OVH_domain_name_starter_offer"
+        ></span>
+        <a href="{{ :: changeOfferLink }}" rel="noopener" target="_blank">
+            <span
+                data-translate="hosting_tab_DOMAINS_configuration_add_step2_mode_OVH_domain_name_starter_offer_link"
+            ></span>
+            <span
+                class="oui-icon oui-icon-arrow-right"
+                aria-hidden="true"
+            ></span>
+        </a>
+    </oui-message>
+    <oui-checkbox
+        model="selected.domainWwwNeeded"
+        disabled="selected.domain == selected.domainWww || domainsAlreadyExists(true) || isStartingOffer()"
+    >
+        <span
+            data-ng-bind="'hosting_tab_DOMAINS_configuration_add_step2_mode_OVH_domain_name_www_question' | translate: { t0: getSelectedDomainToDisplay(true) }"
+            data-ng-if="!domainsAlreadyExists(true)"
+        ></span>
+        <span
+            data-ng-bind="'hosting_tab_DOMAINS_configuration_add_step2_common_domain_exists_with_name' | translate: { t0: getSelectedDomainToDisplay(true) }"
+            data-ng-if="domainsAlreadyExists(true)"
+        ></span>
+    </oui-checkbox>
+
+    <hosting-multisite-configuration
+        cdn="selected.activeCDN"
+        countries-ip="hostingProxy.countriesIp"
+        country-ip="selected.countryIp"
+        domains="model.options.availableDomains"
+        firewall="selected.firewall"
+        hosting="hosting"
+        ip-location="selectedOptions.ipLocation"
+        own-log="selected.ownLog"
+        own-log-domain="selected.ownLogDomain"
+        path="selected.path"
+        runtime="selected.runtime"
+        runtimes="model.runtimes"
+        ssl="selected.ssl"
+        can-modify-path-folder="true"
+    >
+    </hosting-multisite-configuration>
+</form>

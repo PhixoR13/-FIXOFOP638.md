@@ -1,0 +1,10 @@
+{
+  "fax_activation_total_error": "An error occurred while loading.",
+  "fax_activation_widget-title": "Activate fax line(s)",
+  "fax_activation_widget-intro": "You are going to create a fax line as part of your pack.<br />Once you have activated it, you will be sent an email containing the number of the fax line and its login details.<br />To use your service we recommend the <a href=\"{{ecoFaxUrl}}\" target=\"new\">EcoFax</a> software.",
+  "fax_activation_widget_free_slot": "You still have <strong class=\"pack-item-count\">{{available}}</strong> service(s) available.",
+  "fax_activation_widget_free_slot_zero": "You no longer have any available services",
+  "fax_activation_widget_activate_button_lable": "Enable",
+  "fax_activation_widget_success": "Activating fax lines...",
+  "fax_activation_widget_on_doing": "One of more fax lines are being activated."
+}

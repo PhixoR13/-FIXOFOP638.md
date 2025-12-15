@@ -1,0 +1,444 @@
+<div data-ng-controller="ExchangeAddDomainController as ctrl">
+    <div
+        data-wizard
+        data-wizard-bread-crumb
+        data-wizard-title="'exchange_tab_domain_add_domain' | translate"
+        data-wizard-on-cancel="resetAction"
+        data-wizard-on-finish="addDomain"
+    >
+        <div
+            data-wizard-step
+            data-wizard-step-on-load="loadDomainData"
+            data-wizard-step-valid="isNonOvhDomainValid()"
+        >
+            <div class="text-center" data-ng-if="ctrl.loading">
+                <oui-spinner></oui-spinner>
+            </div>
+
+            <div data-ng-if="!ctrl.loading">
+                <oui-message type="info" data-ng-if="ctrl.noDomainAttached">
+                    <span
+                        data-translate="exchange_tab_domain_no_domain_attached"
+                        data-translate-values="{
+                        url: ctrl.DOMAIN_ORDER_URL
+                    }"
+                    ></span>
+                </oui-message>
+                <form name="ctrl.exchangeAddDomainStep1Form">
+                    <div
+                        data-ng-if="ctrl.availableDomainsBuffer && ctrl.availableDomainsBuffer.length > 0"
+                    >
+                        <div class="oui-radio">
+                            <input
+                                type="radio"
+                                class="oui-radio__input"
+                                id="domainType-ovh"
+                                name="addOption"
+                                data-ng-change="ctrl.onChangeDomainType()"
+                                data-ng-model="ctrl.model.domainType"
+                                data-ng-value="ctrl.ovhDomain"
+                            />
+                            <label
+                                class="oui-radio__label-container"
+                                for="domainType-ovh"
+                            >
+                                <span class="oui-radio__label">
+                                    <span class="oui-radio__icon"></span>
+                                    <span
+                                        class="oui-radio__text"
+                                        data-translate="exchange_tab_domain_add_step1_select_domain_option"
+                                    ></span>
+                                </span>
+                            </label>
+                        </div>
+
+                        <div data-ng-if="ctrl.isOvhDomain">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        maxlength="256"
+                                        placeholder="{{'exchange_tab_domain_search' | translate}}"
+                                        data-ng-change="ctrl.onSearchValueChange()"
+                                        data-ng-model="ctrl.search.value"
+                                    />
+                                    <div
+                                        class="input-group-btn"
+                                        data-ng-if="ctrl.search.value"
+                                    >
+                                        <button
+                                            class="btn btn-default"
+                                            type="button"
+                                            data-ng-click="ctrl.resetSearchValue()"
+                                        >
+                                            <span
+                                                class="fa fa-times"
+                                                aria-hidden="true"
+                                            ></span>
+                                        </button>
+                                    </div>
+                                    <div
+                                        class="input-group-addon"
+                                        data-ng-if="!ctrl.search.value"
+                                    >
+                                        <span
+                                            class="fa fa-search"
+                                            aria-hidden="true"
+                                        ></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p
+                                class="alert alert-info"
+                                role="alert"
+                                data-translate="exchange_tab_domain_add_step1_domain_none"
+                                data-ng-if="ctrl.availableDomains.length === 0 && ctrl.search.value"
+                            ></p>
+
+                            <ul
+                                class="list-unstyled pre-scrollable table-bordered"
+                                data-ng-if="ctrl.availableDomains.length !== 0 || !ctrl.search.value"
+                            >
+                                <li
+                                    data-ng-repeat="domain in ctrl.availableDomains | orderBy:'formattedName' track by $index"
+                                >
+                                    <button
+                                        class="btn btn-block text-left"
+                                        type="button"
+                                        data-ng-click="ctrl.model.name = domain.displayName; ctrl.model.displayName = domain.displayName;"
+                                        data-ng-bind="domain.displayName"
+                                        data-ng-class="{
+                                                'btn-stripped': $odd && ctrl.model.name !== domain.displayName,
+                                                'btn-link': ctrl.model.name !== domain.displayName,
+                                                'btn-primary': ctrl.model.name === domain.displayName
+                                            }"
+                                    ></button>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="oui-radio">
+                            <input
+                                type="radio"
+                                class="oui-radio__input"
+                                id="domainType-nonovh"
+                                name="addOption"
+                                data-ng-change="ctrl.onChangeDomainType()"
+                                data-ng-model="ctrl.model.domainType"
+                                data-ng-value="ctrl.nonOvhDomain"
+                            />
+                            <label
+                                class="oui-radio__label-container"
+                                for="domainType-nonovh"
+                            >
+                                <span class="oui-radio__label">
+                                    <span class="oui-radio__icon"></span>
+                                    <span
+                                        class="oui-radio__text"
+                                        id="nonOvhDomain"
+                                        data-translate="exchange_tab_domain_add_step1_user_owned_option"
+                                    ></span>
+                                </span>
+                            </label>
+                        </div>
+
+                        <div
+                            class="form-group"
+                            data-ng-class="{'has-error': ctrl.exchangeAddDomainStep1Form.nonOvhDomain.$dirty && !ctrl.isNonOvhDomainValid()}"
+                            data-ng-if="!ctrl.isOvhDomain"
+                        >
+                            <input
+                                type="text"
+                                class="form-control"
+                                maxlength="256"
+                                name="nonOvhDomain"
+                                placeholder="{{'exchange_tab_domain_domain' | translate}}"
+                                aria-labelledby="nonOvhDomain"
+                                data-ng-change="ctrl.changeName()"
+                                data-ng-model="ctrl.model.displayName"
+                            />
+                            <small
+                                class="help-block"
+                                data-translate="exchange_ACTION_add_domain_invalid_domain"
+                                data-ng-if="ctrl.exchangeAddDomainStep1Form.nonOvhDomain.$dirty && !ctrl.isNonOvhDomainValid()"
+                            ></small>
+                            <div
+                                class="alert alert-warning mt-3"
+                                role="alert"
+                                data-translate="exchange_tab_domain_add_step1_user_owned_info"
+                            ></div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="form-group"
+                        data-ng-class="{'has-error': ctrl.exchangeAddDomainStep1Form.noDomainDisplayName.$dirty && !ctrl.isNonOvhDomainValid()}"
+                        data-ng-if="!ctrl.availableDomainsBuffer || ctrl.availableDomainsBuffer.length === 0"
+                    >
+                        <label
+                            class="control-label"
+                            for="noDomainDisplayName"
+                            data-translate="exchange_tab_domain_add_step1_user_owned_option"
+                        ></label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="noDomainDisplayName"
+                            maxlength="256"
+                            name="noDomainDisplayName"
+                            placeholder="{{'exchange_tab_domain_domain' | translate}}"
+                            data-ng-change="ctrl.changeName()"
+                            data-ng-model="ctrl.model.displayName"
+                        />
+                        <small
+                            class="help-block"
+                            data-translate="exchange_ACTION_add_domain_invalid_domain"
+                            data-ng-if="ctrl.exchangeAddDomainStep1Form.noDomainDisplayName.$dirty && !ctrl.isNonOvhDomainValid()"
+                        ></small>
+                        <div
+                            class="alert alert-warning mt-3"
+                            role="alert"
+                            data-translate="exchange_tab_domain_add_step1_user_owned_info"
+                        ></div>
+                    </div>
+                </form>
+
+                <div
+                    class="resize-half center-image image-container"
+                    data-ng-if="ctrl.isFrenchLanguage()"
+                >
+                    <a
+                        href="https://docs.ovh.com/fr/fr/web/microsoft-collaborative-solutions/premiere-configuration-exchange/#guide-video"
+                        target="_blank"
+                    >
+                        <img
+                            class="w-100 image"
+                            src="https://www.ovh.com/fr/images/videos/guides/exchange/premiere-conf-exchange.jpg"
+                            alt="'exchange_tab_domain_add_step3_domain_none' | translate"
+                        />
+                        <div class="middle overlay-transition">
+                            <span class="fa fa-play" aria-hidden="true"></span>
+                        </div>
+                    </a>
+                </div>
+
+                <div
+                    class="text-center mt-5"
+                    data-ng-if="ctrl.noDomainAttached && ctrl.services.exchangeServiceInfrastructure.isHosted() && ctrl.canOpenWizard"
+                >
+                    <button
+                        class="btn btn-primary"
+                        type="button"
+                        data-ng-click="ctrl.openingWizard()"
+                        data-ng-bind-html="'exchange_tab_domain_add_goToWizardButton' | translate"
+                    ></button>
+                </div>
+            </div>
+
+            <div data-wizard-step-help>
+                <h3 data-translate="exchange_tab_TASKS_ADD_DOMAIN"></h3>
+                <h4
+                    data-translate="exchange_tab_domain_step1_helpwizard_subdomain_title"
+                ></h4>
+                <p
+                    data-ng-bind-html="'exchange_tab_domain_step1_helpwizard_subdomain' | translate"
+                ></p>
+            </div>
+        </div>
+
+        <div
+            data-wizard-step
+            data-wizard-step-on-load="checkDomain"
+            data-wizard-step-valid="!ctrl.loading"
+        >
+            <div class="text-center" data-ng-if="ctrl.loading">
+                <oui-spinner></oui-spinner>
+            </div>
+            <form name="exchangeAddDomainStep2Form" data-ng-if="!ctrl.loading">
+                <p data-translate="exchange_tab_domain_add_step2bis_intro"></p>
+                <div class="oui-radio">
+                    <input
+                        type="radio"
+                        class="oui-radio__input"
+                        id="configurationRecommended"
+                        name="configMode"
+                        data-ng-value="ctrl.CONFIGURATION_MODE.RECOMMENDED"
+                        aria-describedby="configurationRecommendedHelp"
+                        data-ng-model="ctrl.model.configMode"
+                    />
+                    <label
+                        class="oui-radio__label-container"
+                        for="configurationRecommended"
+                    >
+                        <span class="oui-radio__label">
+                            <span class="oui-radio__icon"></span>
+                            <span
+                                class="oui-radio__text"
+                                data-translate="exchange_tab_domain_mode_recommended"
+                            ></span>
+                        </span>
+                        <span
+                            class="oui-radio__description"
+                            id="configurationRecommendedHelp"
+                            data-translate="exchange_tab_domain_mode_recommended_info"
+                        ></span>
+                    </label>
+                </div>
+
+                <div class="oui-radio">
+                    <input
+                        type="radio"
+                        class="oui-radio__input"
+                        id="configurationPersonalized"
+                        name="configMode"
+                        data-ng-value="ctrl.CONFIGURATION_MODE.PERSONALIZED"
+                        aria-describedby="configurationPersonalizedHelp"
+                        data-ng-model="ctrl.model.configMode"
+                    />
+                    <label
+                        class="oui-radio__label-container"
+                        for="configurationPersonalized"
+                    >
+                        <span class="oui-radio__label">
+                            <span class="oui-radio__icon"></span>
+                            <span
+                                class="oui-radio__text"
+                                data-translate="exchange_tab_domain_mode_personalized"
+                            ></span>
+                        </span>
+                        <span
+                            data-ng-if="ctrl.isOvhDomain"
+                            class="oui-radio__description"
+                            id="configurationPersonalizedHelp"
+                            data-translate="exchange_tab_domain_mode_personalized_info_internal"
+                        ></span>
+                        <span
+                            data-ng-if="!ctrl.isOvhDomain"
+                            class="oui-radio__description"
+                            id="configurationPersonalizedHelp"
+                            data-translate="exchange_tab_domain_mode_personalized_info_external"
+                        ></span>
+                    </label>
+                    <div
+                        class="mt-3"
+                        data-ng-if="ctrl.model.configMode === ctrl.CONFIGURATION_MODE.PERSONALIZED"
+                    >
+                        <p
+                            data-translate="exchange_tab_domain_mode_personalized_intro"
+                        ></p>
+                        <label
+                            for="targetMailServer"
+                            data-translate="exchange_tab_domain_target_mail_server_label"
+                        ></label>
+                        <input
+                            type="text"
+                            class="oui-input"
+                            id="targetMailServer"
+                            maxlength="256"
+                            name="targetMailServer"
+                            data-ng-model="ctrl.model.mxRelay"
+                        />
+                        <div class="mt-3" data-ng-if="ctrl.isOvhDomain">
+                            <oui-checkbox
+                                id="mxParam"
+                                name="mxParam"
+                                data-model="ctrl.model.mxParam"
+                                ><span
+                                    data-translate="exchange_tab_domain_add_step2_mx_checkbox"
+                                ></span>
+                            </oui-checkbox>
+                            <oui-checkbox
+                                id="srvParam"
+                                name="srvParam"
+                                data-model="ctrl.model.srvParam"
+                                ><span
+                                    data-translate="exchange_tab_domain_add_step2_srv_checkbox"
+                                ></span>
+                            </oui-checkbox>
+                            <oui-checkbox
+                                id="configureSPF"
+                                name="configureSPF"
+                                data-model="ctrl.model.configureSPF"
+                                ><span
+                                    data-translate="exchange_tab_domain_add_step2_spf_checkbox"
+                                ></span>
+                            </oui-checkbox>
+                            <oui-checkbox
+                                id="configureDKIM"
+                                name="configureDKIM"
+                                data-model="ctrl.model.configureDKIM"
+                                ><span
+                                    data-translate="exchange_tab_domain_add_step2_dkim_checkbox"
+                                ></span>
+                            </oui-checkbox>
+                        </div>
+                    </div>
+                    <div
+                        class="alert alert-warning mt-3"
+                        role="alert"
+                        data-ng-if="ctrl.model.configMode === ctrl.CONFIGURATION_MODE.RECOMMENDED"
+                    >
+                        <span
+                            data-translate="exchange_tab_domain_mode_recommended_warning"
+                        ></span>
+                    </div>
+                    <div data-ng-if="ctrl.setOrganization2010">
+                        <div class="oui-checkbox">
+                            <input
+                                type="checkbox"
+                                class="oui-checkbox__input"
+                                id="mainDomain"
+                                name="mainDomain"
+                                data-ng-model="ctrl.model.main"
+                            />
+                            <label
+                                class="oui-checkbox__label-container"
+                                for="mainDomain"
+                            >
+                                <span class="oui-checkbox__label">
+                                    <span class="oui-checkbox__icon"></span>
+                                    <span
+                                        class="oui-checkbox__text"
+                                        data-translate="exchange_tab_domain_add_step1_main_domain"
+                                    ></span>
+                                </span>
+                            </label>
+                            <div
+                                class="oui-checkbox__description"
+                                data-ng-if="!ctrl.model.main"
+                            >
+                                <label
+                                    class="oui-label required"
+                                    for="mainDomainAttached"
+                                    data-translate="exchange_tab_domain_add_step1_attach_organization_intro"
+                                ></label>
+                                <div class="oui-select">
+                                    <select
+                                        class="oui-select__input"
+                                        id="mainDomainAttached"
+                                        name="mainDomainAttached"
+                                        required
+                                        data-ng-model="ctrl.model.attachOrganization2010"
+                                        data-ng-options="domain.displayName for domain in ctrl.availableMainDomains track by domain.displayName"
+                                    >
+                                    </select>
+                                    <span
+                                        class="oui-icon oui-icon-chevron-down"
+                                        aria-hidden="true"
+                                    ></span>
+                                </div>
+                            </div>
+                            <p
+                                class="oui-checkbox__description"
+                                data-ng-bind-html="'exchange_tab_domain_add_step1_new_organization_intro' | translate:{ t0: ctrl.model.displayName }"
+                                data-ng-if="ctrl.model.main"
+                            ></p>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

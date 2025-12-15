@@ -1,0 +1,33 @@
+<oui-header data-description="{{:: $ctrl.serviceName }}">
+    <oui-header-heading>
+        <div class="d-flex justify-content-between">
+            <h1
+                class="oui-header__title"
+                data-translate="{{:: $ctrl.description || $ctrl.serviceName }}"
+            ></h1>
+            <changelog-button
+                links="$ctrl.constants.CHANGELOG.vps.links"
+                chapters="$ctrl.constants.CHANGELOG.vps.chapters"
+            ></changelog-button>
+        </div>
+    </oui-header-heading>
+    <oui-header-tabs data-ng-if="!$ctrl.vps.isExpired">
+        <oui-header-tabs-item
+            data-state="vps.detail.dashboard"
+            data-state-params="{ serviceName: $ctrl.serviceName }"
+            ><span data-translate="vps_tab_dashboard"></span
+        ></oui-header-tabs-item>
+        <oui-header-tabs-item
+            data-disabled="$ctrl.isMigrating"
+            data-state="vps.detail.secondary-dns"
+            data-state-params="{ serviceName: $ctrl.serviceName }"
+            ><span data-translate="vps_tab_secondary_dns"></span
+        ></oui-header-tabs-item>
+        <oui-header-tabs-item
+            data-disabled="$ctrl.isMigrating"
+            data-ng-repeat="feature in ::$ctrl.features track by $index"
+            data-state="{{:: feature.state }}"
+            ><span data-ng-bind=":: feature.textId | translate"></span
+        ></oui-header-tabs-item>
+    </oui-header-tabs>
+</oui-header>

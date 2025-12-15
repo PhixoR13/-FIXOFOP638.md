@@ -1,0 +1,13 @@
+{
+  "telephony_service_fax_convert_to_voicefax_informations": "Information",
+  "telephony_service_fax_convert_to_voicefax_informations_info1": "Ecofax Personal can be converted to Ecofax Pro.",
+  "telephony_service_fax_convert_to_voicefax_informations_info2": "Please note that after the conversion, the service will be charged at €0.99 per month + VAT.",
+  "telephony_service_fax_convert_to_voicefax_informations_warning": "No personal Ecofax available for conversion.",
+  "telephony_service_fax_convert_to_voicefax_list": "List of convertible Ecofaxes in the group",
+  "telephony_service_fax_convert_to_voicefax_list_service_label": "Select your number:",
+  "telephony_service_fax_convert_to_voicefax_list_service_order": "Generate purchase order",
+  "telephony_service_fax_convert_to_voicefax_list_service_order_valid": "To complete your order, please validate this",
+  "telephony_service_fax_convert_to_voicefax_list_service_order_url": "purchase order",
+  "telephony_service_fax_convert_to_voicefax_list_error_loading": "Oops! An error occurred while loading the group's list of convertible Ecofaxes.",
+  "telephony_service_fax_convert_to_voicefax_list_error_ordering": "Oops! An error occurred while generating the purchase order."
+}

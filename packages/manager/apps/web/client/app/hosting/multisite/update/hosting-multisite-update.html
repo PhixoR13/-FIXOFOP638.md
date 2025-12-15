@@ -1,0 +1,141 @@
+<div data-ng-controller="HostingDomainModifyCtrl">
+    <div
+        data-wizard
+        data-wizard-bread-crumb
+        data-wizard-on-cancel="resetAction"
+        data-wizard-on-finish="submit"
+        data-wizard-title="'hosting_tab_DOMAINS_configuration_modify_title' | translate"
+    >
+        <div
+            data-wizard-step
+            data-wizard-step-on-load="loadStep1"
+            data-wizard-step-valid="!isLoading && canModifyDomainWithGit() && isPathValid() && ((selected.domain.ownLog === 'ACTIVE' && selected.ownLogDomain) || selected.domain.ownLog === 'NONE')"
+        >
+            <p
+                data-translate="hosting_tab_DOMAINS_configuration_modify_step1_question"
+            ></p>
+
+            <div
+                class="text-center"
+                data-ng-if="model.domains == null || isLoading"
+            >
+                <oui-spinner></oui-spinner>
+            </div>
+
+            <form
+                class="form-horizontal"
+                data-ng-if="model.domains != null && !isLoading"
+            >
+                <oui-field
+                    label="{{:: 'hosting_tab_DOMAINS_configuration_modify_step1_domain_name' | translate }}"
+                    size="l"
+                >
+                    <input
+                        class="oui-input"
+                        type="text"
+                        id="domainAttacheModeExternalFormSelectedDomain"
+                        name="domainAttacheModeExternalFormSelectedDomain"
+                        disabled
+                        data-ng-model="selected.domain.displayName"
+                    />
+                    <oui-checkbox
+                        data-ng-if="selected.domain.displayName !== selected.domainWww && domainsAlreadyExists() && domainWwwAvailable"
+                        model="selected.domainWwwNeeded"
+                    >
+                        <span
+                            data-translate="hosting_tab_DOMAINS_configuration_modify_step1_domain_name_www_question"
+                            data-translate-values="{ t0: getSelectedDomainToDisplay(true) }"
+                        ></span>
+                    </oui-checkbox>
+                </oui-field>
+
+                <hosting-multisite-configuration
+                    cdn="selected.domain.cdn"
+                    countries-ip="hostingProxy.countriesIp"
+                    country-ip="selected.domain.ipLocation"
+                    domains="availableDomains"
+                    firewall="selected.domain.firewall"
+                    hosting="hosting"
+                    ip-location="selectedOptions.ipLocation"
+                    ipv6="selected.domain.ipV6Enabled"
+                    own-log="selected.domain.ownLog"
+                    own-log-domain="selected.ownLogDomain"
+                    path="selected.domain.path"
+                    runtime="selected.runtime"
+                    runtimes="model.runtimes"
+                    ssl="selected.domain.ssl"
+                    can-modify-path-folder="canModifyDomainWithGit()"
+                >
+                </hosting-multisite-configuration>
+            </form>
+        </div>
+
+        <div data-wizard-step data-wizard-step-on-load="loadStep2">
+            <p
+                data-translate="hosting_tab_DOMAINS_configuration_modify_step2_summary"
+            ></p>
+
+            <dl class="dl-horizontal dl-lg">
+                <dt
+                    data-translate="hosting_tab_DOMAINS_configuration_modify_step2_domain_name"
+                ></dt>
+                <dd data-ng-bind="getSelectedDomainToDisplay()"></dd>
+
+                <dt
+                    data-translate="hosting_tab_DOMAINS_configuration_modify_step2_domain_name"
+                    data-ng-if="needWwwDomain()"
+                ></dt>
+                <dd
+                    data-ng-bind="getSelectedDomainToDisplay(true)"
+                    data-ng-if="needWwwDomain()"
+                ></dd>
+
+                <dt
+                    data-translate="hosting_tab_DOMAINS_configuration_modify_step2_home"
+                ></dt>
+                <dd data-ng-bind="selected.pathFinal"></dd>
+
+                <dt
+                    data-translate="hosting_tab_DOMAINS_configuration_modify_step2_cdn"
+                    data-ng-if="hosting.hasCdn"
+                ></dt>
+                <dd
+                    data-ng-bind="'hosting_tab_DOMAINS_configuration_modify_step2_cdn_stats_'+selected.domain.cdn | translate"
+                    data-ng-if="hosting.hasCdn"
+                ></dd>
+
+                <dt
+                    data-translate="hosting_tab_DOMAINS_configuration_modify_step2_ssl"
+                ></dt>
+                <dd
+                    data-ng-bind="'hosting_tab_DOMAINS_table_ssl_state_'+ selected.domain.ssl | translate"
+                ></dd>
+
+                <dt
+                    data-translate="hosting_tab_DOMAINS_configuration_add_step3_firewall"
+                ></dt>
+                <dd
+                    data-ng-bind="'hosting_tab_DOMAINS_configuration_add_step3_firewall_' + selected.domain.firewall | translate"
+                ></dd>
+
+                <dt
+                    data-translate="hosting_tab_DOMAINS_configuration_add_step2_mode_OVH_countriesIp"
+                    data-ng-if="selected.domain.ipLocation"
+                ></dt>
+                <dd
+                    data-ng-bind="('country_' + selected.domain.ipLocation.country | translate) + ' - ' + selected.domain.ipLocation.ip"
+                    data-ng-if="selected.domain.ipLocation"
+                ></dd>
+
+                <dt
+                    data-translate="hosting_tab_DOMAINS_configuration_add_step3_ownlog"
+                    data-ng-if="selected.mode === model.mode.OVH"
+                ></dt>
+                <dd
+                    data-ng-bind="(selected.domain.ownLog === 'ACTIVE' ? ('hosting_tab_DOMAINS_configuration_add_step3_ownlog_enabled' | translate) : ('hosting_tab_DOMAINS_configuration_add_step3_ownlog_disabled' | translate))"
+                    data-ng-if="selected.mode === model.mode.OVH"
+                ></dd>
+            </dl>
+        </div>
+    </div>
+</div>

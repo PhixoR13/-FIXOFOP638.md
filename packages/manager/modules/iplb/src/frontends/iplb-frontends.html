@@ -1,0 +1,76 @@
+<section>
+    <h3 data-translate="iplb_frontends_title"></h3>
+    <p data-translate="iplb_frontends_intro_text"></p>
+
+    <a
+        class="oui-button oui-button_secondary mb-3"
+        data-ui-sref="iplb.detail.frontends.add"
+        data-translate="iplb_frontend_add_title"
+    ></a>
+
+    <oui-datagrid
+        data-rows="ctrl.frontends"
+        data-row-loader="ctrl.loadFarm($row)"
+    >
+        <oui-datagrid-column
+            data-title="'iplb_frontend_frontend' | translate"
+            data-property="frontendId"
+            data-sortable="asc"
+        >
+            {{ $row.displayName || $row.frontendId }}
+            <span data-ng-show="$row.displayName">({{ $row.frontendId }})</span>
+        </oui-datagrid-column>
+        <oui-datagrid-column
+            data-title="'iplb_frontend_protocol' | translate"
+            data-property="protocol"
+            data-sortable
+        >
+            {{ $row.displayProtocol | uppercase }}
+            <span data-ng-show="$row.port">: {{ $row.port }}</span>
+        </oui-datagrid-column>
+        <oui-datagrid-column
+            data-title="'iplb_frontend_datacenter' | translate"
+            data-property="region.macroRegion.code"
+            data-sortable
+        >
+            {{ $row.region.macroRegion.text }} {{ $row.zone !== 'all' ? ('(' +
+            $row.region.macroRegion.code + ')') : '' }}
+        </oui-datagrid-column>
+        <oui-datagrid-column
+            data-title="'iplb_frontend_default_farm' | translate"
+            data-property="defaultFarm"
+        >
+            {{ $row.defaultFarm.displayName || $row.defaultFarm.farmId || "-" }}
+        </oui-datagrid-column>
+        <oui-datagrid-column
+            data-title="'iplb_frontend_active' | translate"
+            data-property="disabled"
+            data-sortable
+            class="oui-datagrid__cell_action"
+        >
+            <span class="oui-switch">
+                <label class="oui-switch__label-container">
+                    <input
+                        type="checkbox"
+                        class="oui-switch__checkbox"
+                        data-ng-checked="!$row.disabled"
+                        data-ng-click="ctrl.toggle($row)"
+                    />
+                    <span class="oui-switch__slider" aria-hidden="true"></span>
+                </label>
+            </span>
+        </oui-datagrid-column>
+        <oui-action-menu data-compact data-placement="end">
+            <oui-action-menu-item data-on-click="ctrl.preview($row)"
+                ><span data-translate="iplb_preview_see"></span
+            ></oui-action-menu-item>
+            <oui-action-menu-divider></oui-action-menu-divider>
+            <oui-action-menu-item data-on-click="ctrl.update($row)"
+                ><span data-translate="iplb_frontend_update"></span
+            ></oui-action-menu-item>
+            <oui-action-menu-item data-on-click="ctrl.delete($row)"
+                ><span data-translate="iplb_frontend_delete"></span
+            ></oui-action-menu-item>
+        </oui-action-menu>
+    </oui-datagrid>
+</section>

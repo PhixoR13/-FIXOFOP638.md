@@ -1,0 +1,15 @@
+{
+  "telephony_group_line_calls_click2call_addUser_back": "Cancel adding a user",
+  "telephony_group_line_calls_click2call_addUser_title": "Add user",
+  "telephony_group_line_calls_click2call_addUser_login_placeholder": "Login",
+  "telephony_group_line_calls_click2call_addUser_password_placeholder": "Password",
+  "telephony_group_line_calls_click2call_addUser_adding": "Adding user...",
+  "telephony_group_line_calls_click2call_addUser_added": "User <strong>{{name}}</strong> added. ",
+  "telephony_group_line_calls_click2call_addUser_fail": "Oops! Unable to add user <strong>{{name}}</strong>.",
+  "telephony_group_line_calls_click2call_addUser_rule_size": "Must contain between 8 and 20 characters",
+  "telephony_group_line_calls_click2call_addUser_rule_special": "Must contain numbers, unaccented letters or {{list}}",
+  "telephony_group_line_calls_click2call_addUser_bulk_all_success": "The new user has been added to the selected services.",
+  "telephony_group_line_calls_click2call_addUser_bulk_some_success": "The new user has been added to {{ count }} of the selected services.",
+  "telephony_group_line_calls_click2call_addUser_bulk_error": "The new user could not be added to the following service(s):",
+  "telephony_group_line_calls_click2call_addUser_bulk_on_error": "Oops! An error occurred while adding a user."
+}

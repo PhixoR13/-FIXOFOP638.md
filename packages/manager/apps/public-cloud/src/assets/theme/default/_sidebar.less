@@ -1,0 +1,120 @@
+@import '@ovh-ux/ui-kit/dist/less/_tokens';
+@import './_variables.less';
+
+cloud-sidebar {
+  background-color: @background-color;
+  color: @text-color;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  box-shadow: 0 6px 6px rgba(0, 14, 156, 0.2);
+
+  @media screen and (max-width: @device-breakpoint-tablet) {
+    position: absolute;
+    width: rem-calc(300);
+    z-index: 2;
+
+    &.cloud-sidebar_open {
+      left: 0;
+    }
+
+    &.cloud-sidebar_hidden {
+      left: -(rem-calc(300));
+    }
+  }
+
+  .cloud-sidebar-menu {
+    position: relative;
+    z-index: 2;
+  }
+
+  .oui-navbar-backdrop_active {
+    z-index: 1;
+  }
+
+  .sidebar-toggler {
+    z-index: 3;
+    top: 0;
+    left: 0;
+    height: 44px;
+    width: 50px;
+  }
+
+  .oui-clipboard {
+    .oui-clipboard__control,
+    .oui-clipboard__button {
+      &,
+      &:hover,
+      &:focus {
+        background-color: transparent;
+        border-color: transparent;
+        color: inherit;
+      }
+    }
+  }
+
+  .project-list-toggle {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+
+    &.oui-button_secondary {
+      border-color: @p-000;
+
+      &:hover {
+        border-color: @p-100;
+      }
+
+      &:active {
+        border-color: @p-200;
+      }
+    }
+  }
+
+  .project-list {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: @primary-color;
+    color: @light-color;
+    top: 0;
+    transform: translateX(0);
+    z-index: 1021;
+    overflow: auto;
+    will-change: transform;
+    transition: transform ease-in-out 500ms;
+
+    @media screen and (max-width: @device-breakpoint-tablet) {
+      left: 0;
+    }
+
+    .oui-button_primary {
+      background-color: @p-000;
+      border-color: @p-000;
+      color: @p-500;
+    }
+
+    .oui-button_secondary {
+      background-color: transparent;
+      border-color: @p-000;
+      color: @p-000;
+    }
+
+    &.ng-enter,
+    &.ng-leave.ng-leave-active {
+      transform: translateX(-100%);
+    }
+
+    &.ng-leave,
+    &.ng-enter.ng-enter-active {
+      transform: translateX(0);
+    }
+
+    ul {
+      li {
+        padding: 4px;
+        border-bottom: 1px solid @light-color;
+      }
+    }
+  }
+}

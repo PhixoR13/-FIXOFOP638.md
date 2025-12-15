@@ -1,0 +1,5 @@
+{
+  "telephony_alias_ovh_pabx_condition": "To use this functionality, you must activate the interactive voice response type of the call queue type (expert mode).",
+  "telephony_alias_ovh_pabx_menu_condition": "You must activate the interactive voice response in order to manage the interactive menus.",
+  "telephony_alias_ovh_pabx_tts_condition": "You must activate the Contact Center Solution in expert mode in order to manage Text to Speech."
+}

@@ -1,0 +1,138 @@
+<div class="telecom-pack-move">
+    <oui-back-button
+        data-on-click="$ctrl.goBack($ctrl.packName)"
+        previous-page="{{:: 'pack_move_go_back' | translate }}"
+    >
+        <span data-translate="pack_move_title"></span>
+    </oui-back-button>
+
+    <div>
+        <div class="text-center" data-ng-if="$ctrl.loading">
+            <oui-spinner></oui-spinner>
+        </div>
+
+        <!-- BEGIN: end of loading -->
+        <div data-ng-if="!$ctrl.loading">
+            <div
+                class="alert alert-warning mt-4"
+                role="alert"
+                data-ng-if="$ctrl.operationAlreadyPending"
+            >
+                <strong
+                    data-translate="pack_move_operation_already_pending"
+                ></strong>
+            </div>
+            <div
+                class="alert alert-warning mt-4"
+                role="alert"
+                data-ng-if="!$ctrl.operationAlreadyPending && $ctrl.offer.current.isLegacy"
+            >
+                <strong data-translate="pack_move_legacy_offer"></strong>
+                <a
+                    data-translate="pack_move_legacy_offer_upgrade_offer"
+                    data-ui-sref="telecom.packs.pack.migration"
+                >
+                </a>
+            </div>
+
+            <tuc-toast-message></tuc-toast-message>
+
+            <!-- BEGIN: Is not legacy offer -->
+            <div
+                data-ng-if="!$ctrl.operationAlreadyPending  && !$ctrl.offer.current.isLegacy"
+            >
+                <div class="widget-presentation">
+                    <div
+                        data-ng-if="$ctrl.moveStep === $ctrl.steps.eligibility"
+                    >
+                        <pack-move-eligibility
+                            data-method="$ctrl.method"
+                            data-pack-name="$ctrl.packName"
+                            data-test-line="$ctrl.testLine"
+                            data-is-reseller="$ctrl.offer.current.isReseller"
+                        >
+                        </pack-move-eligibility>
+                    </div>
+
+                    <div data-ng-if="$ctrl.moveStep === $ctrl.steps.offers">
+                        <h2
+                            class="widget-presentation-title"
+                            data-translate="pack_move_choose_offer"
+                        ></h2>
+                        <pack-move-offers
+                            data-pack-name="$ctrl.packName"
+                            data-eligibility-reference="$ctrl.eligibilityReference"
+                            data-eligibility-reference-fiber="$ctrl.eligibilityReferenceFiber"
+                            data-current-offer="$ctrl.offer.current"
+                        >
+                        </pack-move-offers>
+                    </div>
+                    <div data-ng-if="$ctrl.moveStep === $ctrl.steps.unbundling">
+                        <pack-move-unbundling
+                            data-offer-name="$ctrl.offer.selected.offer.offerName"
+                            data-offers-eligible="$ctrl.offersEligible"
+                            data-address="$ctrl.offer.selected.address"
+                            data-copper-info="$ctrl.selectedLine.endpoint.copperInfo"
+                            data-prices="$ctrl.offer.selected.offer.prices"
+                        >
+                        </pack-move-unbundling>
+                    </div>
+                    <div data-ng-if="$ctrl.moveStep === $ctrl.steps.saveNumber">
+                        <pack-move-address
+                            data-offer="$ctrl.offer.selected"
+                            data-loading="$ctrl.packAddress.loading || $ctrl.slammingCheck"
+                            data-line-number="$ctrl.packAddress.lineNumber"
+                            data-portability="$ctrl.packAddress.portability && !$ctrl.hasSlamming"
+                            data-address="$ctrl.packAddress.current"
+                            data-future-address="$ctrl.offer.selected.address"
+                            data-address-loading="$ctrl.packAddress.loading"
+                            data-rio="$ctrl.offer.selected.rio"
+                            data-future-line-number="$ctrl.offer.selected.futureLineNumber"
+                        ></pack-move-address>
+                    </div>
+                    <div
+                        data-ng-if="$ctrl.moveStep === $ctrl.steps.buildingDetails"
+                    >
+                        <pack-move-building-details
+                            data-building="$ctrl.building"
+                            data-is-multi-otp-available="$ctrl.isMultiOtpAvailable"
+                        ></pack-move-building-details>
+                    </div>
+                    <div
+                        data-ng-if="$ctrl.moveStep === $ctrl.steps.serviceDelete"
+                    >
+                        <pack-move-service-delete
+                            data-sub-services-to-delete="$ctrl.offer.selected.offer.subServicesToDelete"
+                        ></pack-move-service-delete>
+                    </div>
+                    <div
+                        data-ng-if="$ctrl.moveStep === $ctrl.steps.ontShipping"
+                    >
+                        <pack-move-ont-shipping
+                            data-pack-name="$ctrl.packName"
+                        ></pack-move-ont-shipping>
+                    </div>
+                    <div data-ng-if="$ctrl.moveStep === $ctrl.steps.shipping">
+                        <pack-move-shipping
+                            data-pack-name="$ctrl.packName"
+                        ></pack-move-shipping>
+                    </div>
+                    <div data-ng-if="$ctrl.moveStep === $ctrl.steps.meeting">
+                        <pack-move-meeting
+                            data-product-code="$ctrl.offer.selected.productCode"
+                            data-eligibility-reference="$ctrl.offer.selected.eligibilityReference"
+                        ></pack-move-meeting>
+                    </div>
+                    <div data-ng-if="$ctrl.moveStep === $ctrl.steps.resume">
+                        <pack-move-resume
+                            data-offer="$ctrl.offer"
+                            data-pack-name="$ctrl.packName"
+                        ></pack-move-resume>
+                    </div>
+                </div>
+            </div>
+            <!-- END: Is not legacy offer -->
+        </div>
+        <!-- END: end of loading -->
+    </div>
+</div>

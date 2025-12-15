@@ -1,0 +1,83 @@
+<div>
+    <div
+        class="alert alert-info"
+        role="alert"
+        data-translate="exchange_tab_DISCLAIMER_table_no_domain"
+        data-ng-if="ctrlDisclaimer.addDomainMessageFlag"
+    ></div>
+
+    <oui-datagrid data-rows-loader="ctrlDisclaimer.loadPaginated($config)">
+        <oui-datagrid-column
+            data-title="'exchange_tab_DISCLAIMER_associated_domains' | translate"
+            data-property="domain.displayName"
+        ></oui-datagrid-column>
+        <oui-datagrid-column
+            data-title="'exchange_tab_DISCLAIMER_disclaimer_content' | translate"
+            data-property="strippedContent"
+        >
+            <span
+                data-ng-bind="$row.strippedContent | wucSliceContent:20"
+            ></span>
+        </oui-datagrid-column>
+        <oui-datagrid-column
+            data-title="'exchange_tab_DISCLAIMER_disclaimer_outside_only' | translate"
+            data-property="outsideOnly"
+        >
+            <span
+                data-ng-if="$row.outsideOnly"
+                data-translate="exchange_tab_DISCLAIMER_disclaimer_outside_only_true"
+                data-oui-tooltip="{{'exchange_tab_DISCLAIMER_disclaimer_outside_only_tooltip' | translate}}"
+            ></span>
+            <span
+                data-ng-if="!$row.outsideOnly"
+                data-translate="exchange_tab_DISCLAIMER_disclaimer_outside_only_false"
+                data-oui-tooltip="{{'exchange_tab_DISCLAIMER_disclaimer_outside_only_tooltip' | translate}}"
+            ></span>
+        </oui-datagrid-column>
+        <oui-datagrid-column
+            data-title="'exchange_tab_DISCLAIMER_state_header' | translate"
+        >
+            <span
+                class="oui-badge oui-badge_info"
+                data-translate="exchange_tab_DISCLAIMER_state_doing_tooltip"
+                data-ng-if="$row.taskPendingId && $row.taskPendingId !== 0"
+            ></span>
+            <span
+                class="oui-badge oui-badge_success"
+                data-translate="exchange_tab_ACCOUNTS_state_OK"
+                data-ng-if="$row.taskPendingId === 0"
+            ></span>
+            <span
+                class="oui-badge oui-badge_warning"
+                data-translate="common_not_configurated"
+                data-ng-if="$row.emptySlotFlag"
+            ></span>
+        </oui-datagrid-column>
+
+        <oui-action-menu
+            data-compact
+            data-disabled="$row.taskPendingId"
+            data-placement="end"
+        >
+            <oui-action-menu-item
+                data-ng-click="ctrlDisclaimer.updateDisclaimer($row)"
+                data-ng-if="!$row.taskPendingId && $row.emptySlotFlag === false"
+                ><span
+                    data-translate="exchange_tab_DISCLAIMER_menu_settings"
+                ></span
+            ></oui-action-menu-item>
+            <oui-action-menu-item
+                data-ng-click="ctrlDisclaimer.deleteDisclaimer($row)"
+                data-ng-if="!$row.taskPendingId && $row.emptySlotFlag === false"
+                ><span
+                    data-translate="exchange_tab_DISCLAIMER_menu_delete"
+                ></span
+            ></oui-action-menu-item>
+            <oui-action-menu-item
+                data-ng-click="ctrlDisclaimer.addDisclaimer($row)"
+                data-ng-if="!$row.taskPendingId && $row.emptySlotFlag"
+                ><span data-translate="global_configuration"></span
+            ></oui-action-menu-item>
+        </oui-action-menu>
+    </oui-datagrid>
+</div>

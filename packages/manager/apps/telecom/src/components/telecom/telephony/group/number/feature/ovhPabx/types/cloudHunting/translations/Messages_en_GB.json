@@ -1,0 +1,13 @@
+{
+  "telephony_number_feature_ovh_pabx_dialplan": "Call queue (expert mode):",
+  "telephony_number_feature_ovh_pabx_dialplan_edit": "Call queue options",
+  "telephony_number_feature_ovh_pabx_dialplan_new_name": "My call queue",
+  "telephony_number_feature_ovh_pabx_dialplan_action_edit": "Edit call queue options",
+  "telephony_number_feature_ovh_pabx_dialplan_action_delete": "Cancel call queue configuration",
+  "telephony_number_feature_ovh_pabx_dialplan_save_error": "Oops! An error occurred while modifying your call queue.",
+  "telephony_number_feature_ovh_pabx_dialplan_create_error": "Oops! An error occurred while creating your call queue.",
+  "telephony_number_feature_ovh_pabx_dialplan_delete_error": "Oops! An error occurred while deleting your call queue configuration.",
+  "telephony_number_feature_ovh_pabx_dialplan_name_required": "Please name your call queue.",
+  "telephony_number_feature_ovh_pabx_dialplan_transfer_timeout_explain": "When the call queue includes a transfer to an external line, if this call is not picked up before the set time, the call will move onto the next step.",
+  "telephony_number_feature_ovh_pabx_dialplan_name_explain": "This name will be present on the called phone during an incoming call."
+}

@@ -1,0 +1,10 @@
+{
+  "telephony_delete_group_title": "Delete the group",
+  "telephony_delete_group_warning": "Deleting a telephony group will result in the related lines and numbers being deleted.",
+  "telephony_delete_group_infos": "The group deletion request is scheduled for your next billing date. The request may be cancelled before that date.",
+  "telephony_delete_group_pending": "Deletion of {{group}} group scheduled for:",
+  "telephony_delete_group_cancel": "Cancel deletion",
+  "telephony_delete_group_cancel_success": "The {{group}} group has been successfully deleted.",
+  "telephony_delete_group_delete": "Delete {{group}}",
+  "telephony_delete_group_delete_success": "The deletion of the {{group}} group has been scheduled."
+}

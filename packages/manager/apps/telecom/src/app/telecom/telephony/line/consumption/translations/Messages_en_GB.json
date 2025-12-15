@@ -1,0 +1,8 @@
+{
+  "telephony_line_management_actions_line_consumption_incoming_calls": "Calls received",
+  "telephony_line_management_actions_line_consumption_outgoing_calls": "Calls made",
+  "telephony_line_management_actions_line_consumption_incoming_fax": "Faxes received",
+  "telephony_line_management_actions_line_consumption_outgoing_fax": "Faxes sent",
+  "telephony_line_consumption_back_link": "Back to consumption management",
+  "telephony_line_management_actions_line_consumption_breadcrumb": "Usage"
+}

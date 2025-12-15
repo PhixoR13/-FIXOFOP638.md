@@ -1,0 +1,11 @@
+{
+  "xdsl_modem_managedBy_title": "Remote configuration enabled",
+  "xdsl_modem_managedBy_description": "You can configure the modem either in the Control Panel or from its internal interface. By enabling modem configuration from the Control Panel, you will disable its internal interface.",
+  "xdsl_modem_managedBy_warning": "Warning: the configuration can only be managed from a single interface.",
+  "xdsl_modem_managedBy_warning_override": "Warning: enabling remote configuration will remove the current modem settings.",
+  "xdsl_modem_managedBy_success_validation_on": "Enabling remote configuration...",
+  "xdsl_modem_managedBy_success_validation_off": "Deactivating remote configuration...",
+  "xdsl_modem_managedBy_an_error_ocurred": "[Activating Remote Configuration] An error occurred.",
+  "xdsl_modem_managedBy_really_on": "Are you sure you want to enable remote configuration?",
+  "xdsl_modem_managedBy_really_off": "Are you sure you want to disable remote configuration?"
+}

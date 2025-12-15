@@ -1,0 +1,32 @@
+<oui-header
+    data-heading="{{:: 'private_database_order_clouddb_title' | translate }}"
+    data-description="{{:: 'private_database_order_clouddb_subtitle' | translate }}"
+>
+</oui-header>
+
+<div data-ovh-alert="cloudDB_order_alert"></div>
+
+<ovh-manager-product-offers
+    data-pricing-type="$ctrl.productOffers.pricingType"
+    data-workflow-options=":: $ctrl.productOffers.workflowOptions"
+    data-workflow-type=":: $ctrl.productOffers.workflowType"
+    data-on-success=":: $ctrl.onSuccess(checkout)"
+    data-on-error=":: $ctrl.onError(error)"
+>
+    <oui-step-form
+        data-header="{{:: 'private_database_order_clouddb_customization' | translate }}"
+        data-valid="$ctrl.isValidDbConfig()"
+        data-prevent-next="true"
+        data-on-submit="$ctrl.onGoToNextStepClick()"
+        data-on-focus="$ctrl.onOptionEdit()"
+    >
+        <web-hosting-database-order-db-categories-offers
+            data-user="$ctrl.user"
+            data-db-categories="$ctrl.dbCategories"
+            data-preselect-db-category="$ctrl.preselectDbCategory"
+            data-on-db-category-click="$ctrl.onDbCategoryClick(dbCategory)"
+            data-on-db-category-engine-click="$ctrl.onDbCategoryEngineClick(dbEngine)"
+            data-model="$ctrl.model"
+        ></web-hosting-database-order-db-categories-offers>
+    </oui-step-form>
+</ovh-manager-product-offers>

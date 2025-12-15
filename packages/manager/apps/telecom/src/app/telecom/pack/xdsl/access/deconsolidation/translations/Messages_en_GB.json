@@ -1,0 +1,20 @@
+{
+  "xdsl_access_deconsolidation_title": "Total Unbundling",
+  "xdsl_access_deconsolidation_validate": "Confirm unbundling",
+  "xdsl_access_deconsolidation_legacy_offer": "Your line is part of an out-of-date plan. To be eligible for total unbundling, you need to update your pack to a newer plan.",
+  "xdsl_access_deconsolidation_legacy_offer_upgrade": "Update my plan",
+  "xdsl_access_deconsolidation_createNeighbour": "Total",
+  "xdsl_access_deconsolidation_creation": "Total",
+  "xdsl_access_deconsolidation_partial": "Partial",
+  "xdsl_access_deconsolidation_total": "Total",
+  "xdsl_access_deconsolidation_warning_total": "You are already in total unbundling. You cannot revert to partial unbundling.",
+  "xdsl_access_deconsolidation_warning_partial": "You are in partial unbundling. You can upgrade to total unbundling.",
+  "xdsl_access_deconsolidation_desc_important": "This operation CANNOT be reversed. It takes an average of 7 working days. A service interruption of approximately 30 minutes is expected.",
+  "xdsl_access_deconsolidation_success": "Move to total unbundling! You will be redirected.",
+  "xdsl_access_deconsolidation_really": "Are you sure you want to move to Total Unbundling?",
+  "xdsl_access_deconsolidation_number_not_transferred": "Your number will not be ported.",
+  "xdsl_access_deconsolidation_rio": "PAC",
+  "xdsl_access_deconsolidation_rio_title": "Keep my number",
+  "xdsl_access_deconsolidation_rio_warning": "You must include the PAC code linked to your number, otherwise your number will be lost.",
+  "xdsl_access_deconsolidation_rio_help": "How do I get my PAC code? It is a very simple process. Before subscribing, call 3179 for free from your landline."
+}

@@ -1,0 +1,19 @@
+{
+  "telephony_line_calls_filtering_title": "Call filtering",
+  "telephony_line_calls_filtering_enable": "Activate filtering",
+  "telephony_line_calls_filtering_info": "In order to activate your filtering settings, please select the list to apply to incoming and outgoing calls.",
+  "telephony_line_calls_filtering_incoming": "Incoming call filtering",
+  "telephony_line_calls_filtering_list_white": "White",
+  "telephony_line_calls_filtering_list_black": "Black",
+  "telephony_line_calls_filtering_list_none": "No active lists",
+  "telephony_line_calls_filtering_outgoing": "Outgoing call filtering",
+  "telephony_line_calls_filtering_anonymous_reject": "Reject anonymous calls",
+  "telephony_line_calls_filtering_do_not_disturb": "Do not disturb",
+  "telephony_line_calls_filtering_absent": "Subscriber absent",
+  "telephony_line_calls_filtering_new": "Configure new filters",
+  "telephony_line_calls_filtering_config": "Current configuration",
+  "telephony_line_calls_filtering_bulk_all_success": "The call filters have been applied to the selected services.",
+  "telephony_line_calls_filtering_bulk_some_success": "The call filters have been applied to {{ count }} of the selected services.",
+  "telephony_line_calls_filtering_bulk_error": "The call filters could not be applied to the following service(s):",
+  "telephony_line_calls_filtering_bulk_on_error": "Oops! An error occurred while applying the call filters."
+}

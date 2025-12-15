@@ -1,0 +1,143 @@
+<div data-ui-view>
+    <oui-header
+        data-heading="{{:: 'pci_workflow_title' | translate }}"
+        class="mb-3"
+    >
+        <oui-guide-menu
+            data-text="{{:: 'pci_project_guides_header' | translate }}"
+        >
+            <oui-guide-menu-item
+                data-ng-repeat="guide in $ctrl.guideUrl.kubernetes track by $index"
+                data-href="{{:: guide.url }}"
+                data-on-click="$ctrl.trackClick($ctrl.guideTrackingSectionTags.workflow_management + guide.tracking)"
+                data-external
+            >
+                <span
+                    data-translate="{{:: 'pci_project_guides_header_' + guide.key }}"
+                ></span>
+            </oui-guide-menu-item>
+        </oui-guide-menu>
+    </oui-header>
+    <div class="container-fluid px-0">
+        <cui-message-container
+            data-messages="$ctrl.messages"
+        ></cui-message-container>
+        <oui-datagrid
+            data-rows="$ctrl.workflows"
+            data-row-loader="$ctrl.getInstance($row)"
+            criteria="$ctrl.criteria"
+            on-criteria-change="$ctrl.onListParamChange($criteria)"
+        >
+            <oui-datagrid-column
+                data-title=":: 'pci_workflow_name' | translate"
+                data-property="name"
+                data-searchable
+                data-filterable
+                data-sortable="asc"
+                data-type="string"
+            >
+                <span class="text-truncate" data-ng-bind="::$row.name"></span>
+            </oui-datagrid-column>
+            <oui-datagrid-column
+                data-title=":: 'pci_workflow_id' | translate"
+                data-property="id"
+                data-filterable
+                data-type="string"
+            >
+            </oui-datagrid-column>
+            <oui-datagrid-column
+                data-title=":: 'pci_workflow_type' | translate"
+                data-property="type"
+                data-searchable
+                data-filterable
+                data-sortable
+                data-type="string"
+            >
+                <span
+                    data-ng-bind="::'pci_workflow_type_' + $row.type + '_title' | translate"
+                ></span>
+            </oui-datagrid-column>
+            <oui-datagrid-column
+                data-title=":: 'pci_workflow_resource' | translate"
+                data-property="instanceName"
+                data-searchable
+                data-filterable
+                data-sortable
+                data-type="string"
+            >
+                <button
+                    type="button"
+                    class="oui-link"
+                    data-ng-click="$ctrl.goToInstancePage($row.instanceId)"
+                >
+                    <span data-ng-bind="::$row.instanceName"></span>
+                </button>
+            </oui-datagrid-column>
+            <oui-datagrid-column
+                data-title=":: 'pci_workflow_schedule' | translate"
+                data-property="cron"
+                data-searchable
+                data-filterable
+                data-sortable
+                data-type="string"
+            >
+            </oui-datagrid-column>
+            <oui-datagrid-column
+                data-title=":: 'pci_workflow_last_execution' | translate"
+                data-property="latestExecution"
+                data-sortable
+                data-searchable
+                data-filterable
+                data-type="date"
+            >
+                <span
+                    data-ng-bind="$row.latestExecution | date: 'medium': 'UTC'"
+                ></span>
+            </oui-datagrid-column>
+            <oui-datagrid-column
+                data-title=":: 'pci_workflow_last_execution_status' | translate"
+                data-property="executions"
+                data-type="string"
+            >
+                <span
+                    class="oui-badge"
+                    data-ng-if="$row.executions && $row.executions.length"
+                    data-ng-init="execution = $row.executions[0]"
+                    data-ng-class="{
+                        'oui-badge_success': execution.state === 'SUCCESS',
+                        'oui-badge_warning': execution.state === 'PAUSED',
+                        'oui-badge_error': execution.state === 'ERROR',
+                        'oui-badge_info': execution.state === execution.status,
+                    }"
+                >
+                    <span
+                        data-ng-bind=":: 'pci_workflow_execution_status_' + execution.state | translate"
+                    ></span>
+                </span>
+            </oui-datagrid-column>
+            <oui-action-menu data-compact data-placement="end">
+                <oui-action-menu-item
+                    data-ng-if="$row.executions && $row.executions.length"
+                    data-on-click="$ctrl.goToExecutionsPage($row)"
+                    ><span data-translate="pci_workflow_view_executions"></span>
+                </oui-action-menu-item>
+                <oui-action-menu-item
+                    data-on-click="$ctrl.goToDeleteWorkflowPage($row)"
+                    ><span data-translate="pci_workflow_delete"></span>
+                </oui-action-menu-item>
+            </oui-action-menu>
+            <oui-datagrid-topbar>
+                <button
+                    data-ng-click="$ctrl.add()"
+                    class="oui-button oui-button_secondary oui-button_icon-left mb-2"
+                >
+                    <span
+                        class="oui-icon oui-icon-add"
+                        aria-hidden="true"
+                    ></span>
+                    <span data-translate="pci_workflow_add"></span>
+                </button>
+            </oui-datagrid-topbar>
+        </oui-datagrid>
+    </div>
+</div>

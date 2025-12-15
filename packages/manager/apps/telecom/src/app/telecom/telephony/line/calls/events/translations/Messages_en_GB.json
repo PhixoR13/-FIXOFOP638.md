@@ -1,0 +1,6 @@
+{
+  "telephony_line_calls_events_title": "Manage exceptional closures",
+  "telephony_line_calls_events_info": "The calendar allows you to set closing times for your company.",
+  "telephony_line_calls_events_warning": "Please note that the slots will only be set after you have activated your time conditions.",
+  "telephony_line_calls_events_load_error": "Oops! An error occurred while loading the exceptional closing times."
+}

@@ -1,0 +1,213 @@
+<oui-tabs
+    class="mb-4"
+    data-ng-if="!$ctrl.displaySelectedRegion && $ctrl.regionsByDeploymentMode"
+>
+    <oui-tabs-item
+        data-heading="{{ continent }}"
+        data-ng-repeat="continent in $ctrl.continents track by continent"
+    >
+        <div class="container-fluid px-0">
+            <div class="row">
+                <p data-ng-if="$ctrl.regionsByContinent[continent] === {}">
+                    <span
+                        data-translate="pci_project_regions_list_empty"
+                    ></span>
+                    <span
+                        data-translate="pci_project_regions_list_add"
+                        data-translate-values="{
+                            url: $ctrl.$state.href('pci.projects.project.regions')
+                        }"
+                    >
+                    </span>
+                </p>
+
+                <div
+                    class="col-md-6 col-xl-4 my-3"
+                    data-ng-repeat="(macro, regions) in $ctrl.regionsByContinents[continent] track by macro"
+                >
+                    <oui-select-picker
+                        data-name="{{:: continent }}_regions"
+                        data-model="$ctrl.macroRegion"
+                        data-label="{{ regions.length === 1 ? regions[0].microRegion.text : macro }}"
+                        data-values="[macro]"
+                        data-variant="light"
+                        data-on-change="$ctrl.onMacroChange(modelValue, regions)"
+                        data-disabled="$ctrl.disabled || $ctrl.constructor.isRegionDisabled(regions)"
+                        data-required
+                    >
+                        <oui-select-picker-picture
+                            data-ng-if="$ctrl.currentRegion.name === regions[0].microRegion.code"
+                        >
+                            <span
+                                class="oui-badge oui-badge_s oui-badge_success"
+                                data-translate="pci_project_regions_list_current_offer"
+                            ></span>
+                        </oui-select-picker-picture>
+                        <oui-select-picker-section
+                            data-ng-if="$ctrl.constructor.isRegionDisabled(regions)"
+                        >
+                            <a
+                                class="oui-button oui-button_ghost"
+                                data-ng-href="{{:: $ctrl.quotaUrl }}"
+                                data-translate="pci_project_regions_list_quota"
+                                target="_top"
+                            >
+                            </a>
+                        </oui-select-picker-section>
+                        <oui-select-picker-section
+                            data-ng-if="regions[0].isLocalZone !== undefined"
+                        >
+                            <span
+                                data-ng-if="regions[0].isLocalZone"
+                                class="oui-badge oui-badge_promotion"
+                            >
+                                <span
+                                    data-translate="pci_project_flavors_zone_localzone"
+                                ></span>
+                                <button
+                                    type="button"
+                                    class="oui-popover-button"
+                                    data-oui-popover
+                                    data-oui-popover-scope="$ctrl"
+                                    data-oui-popover-template="pci_project_flavors_zone_localzone.html"
+                                ></button>
+                                <script
+                                    type="text/ng-template"
+                                    id="pci_project_flavors_zone_localzone.html"
+                                >
+                                    <span
+                                        class="text-center"
+                                        data-translate="pci_project_flavors_zone_localzone_tooltip"
+                                    ></span>
+                                    <a
+                                        class="oui-link_icon"
+                                        aria-hidden="true"
+                                        data-ng-href="{{$ctrl.localZoneUrl}}"
+                                        target="_blank"
+                                    >
+                                        <span
+                                            data-translate="pci_project_flavors_zone_tooltip_link"
+                                        ></span>
+                                        <span class="oui-icon oui-icon-external-link ml-0" aria-hidden="true"></span>
+                                    </a>
+                                </script>
+                            </span>
+
+                            <span
+                                data-ng-if="!regions[0].isLocalZone"
+                                class="oui-badge oui-badge_new"
+                            >
+                                <span
+                                    data-translate="pci_project_flavors_zone_global_region"
+                                ></span>
+                                <button
+                                    type="button"
+                                    class="oui-popover-button"
+                                    data-oui-popover
+                                    data-oui-popover-scope="$ctrl"
+                                    data-oui-popover-template="pci_project_flavors_zone_globalregions_tooltip.html"
+                                ></button>
+                                <script
+                                    type="text/ng-template"
+                                    id="pci_project_flavors_zone_globalregions_tooltip.html"
+                                >
+                                    <span
+                                        class="text-center"
+                                        data-translate="pci_project_flavors_zone_globalregions_tooltip"
+                                    ></span>
+                                    <a
+                                        class="oui-link_icon"
+                                        aria-hidden="true"
+                                        data-ng-href="{{$ctrl.globalRegionsUrl}}"
+                                        target="_blank"
+                                    >
+                                        <span
+                                            data-translate="pci_project_flavors_zone_tooltip_link"
+                                        ></span>
+                                        <span class="oui-icon oui-icon-external-link ml-0" aria-hidden="true"></span>
+                                    </a>
+                                </script>
+                            </span>
+                        </oui-select-picker-section>
+                    </oui-select-picker>
+                </div>
+            </div>
+
+            <div
+                data-ng-if="$ctrl.regionsByContinents[continent][$ctrl.macroRegion].length > 1"
+            >
+                <p data-translate="pci_project_regions_list_region"></p>
+
+                <div class="row">
+                    <oui-select-picker
+                        data-ng-repeat="region in $ctrl.regionsByContinents[continent][$ctrl.macroRegion] track by region.name"
+                        class="d-inline-block col-md-6 col-xl-4 my-3"
+                        data-name="{{ continent + '-' + region.name }}"
+                        data-label="{{:: region.name }}"
+                        data-model="$ctrl.region"
+                        data-values="[region]"
+                        data-variant="light"
+                        data-on-change="$ctrl.onRegionChange(modelValue)"
+                        data-disabled="!region.hasEnoughQuota"
+                    >
+                        <oui-select-picker-section
+                            data-ng-if="!region.hasEnoughQuota"
+                        >
+                            <a
+                                class="oui-button oui-button_ghost"
+                                data-ng-href="{{ $ctrl.quotaUrl }}"
+                                target="_top"
+                            >
+                                <span
+                                    data-translate="pci_project_regions_list_quota"
+                                ></span>
+                            </a>
+                        </oui-select-picker-section>
+                    </oui-select-picker>
+                </div>
+            </div>
+        </div>
+        <div
+            data-ng-if="$ctrl.selectedRegion.enabled === false"
+            class="regions-list"
+        >
+            <p class="oui-color-ae-500" data-ng-if="!$ctrl.isDiscoveryProject">
+                <strong
+                    data-translate="pci_projects_project_storages_containers_add_add_region_activate"
+                >
+                </strong>
+            </p>
+        </div>
+        <div data-ng-if="$ctrl.isDiscoveryProject" class="regions-list">
+            <p class="oui-color-ae-500">
+                <strong
+                    data-translate="pci_project_regions_list_activate_project_banner_message"
+                ></strong>
+                <a
+                    data-ng-href="{{:: $ctrl.projectActivationPageHref }}"
+                    data-translate="pci_project_regions_list_activate_project_banner_link_text"
+                ></a>
+            </p>
+        </div>
+    </oui-tabs-item>
+</oui-tabs>
+<oui-spinner
+    data-size="s"
+    data-ng-if="!$ctrl.regionsByDeploymentMode"
+></oui-spinner>
+<div data-ng-if="$ctrl.displaySelectedRegion" class="container-fluid px-0">
+    <div class="row">
+        <oui-select-picker
+            class="d-inline-block col-md-6 col-xl-4 my-3"
+            data-name="selected"
+            data-match="microRegion.text"
+            data-model="$ctrl.region"
+            data-label="{{$ctrl.region.macroRegion.text}}"
+            data-values="[$ctrl.region]"
+            data-variant="light"
+            data-required
+        >
+            {{$ctrl.region.macroRegion.text}}
+        </oui-select-picker>
+    </div>
+</div>

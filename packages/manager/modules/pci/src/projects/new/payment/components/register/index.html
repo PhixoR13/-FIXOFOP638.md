@@ -1,0 +1,20 @@
+<div class="pci-project-new-payment-register">
+    <h2
+        class="oui-heading_underline"
+        data-translate="pci_project_new_payment_register_title"
+        data-ng-class="'h' + $ctrl.viewOptions.subtitlesSize"
+    ></h2>
+
+    <pci-project-new-payment-method-add
+        data-registerable-payment-methods="$ctrl.registerablePaymentMethods"
+        data-eligibility="$ctrl.eligibility"
+        data-model="$ctrl.model"
+        data-global-loading="$ctrl.globalLoading"
+        data-credit-provisioning-plan="$ctrl.creditProvisioningPlan"
+        data-is-displayable-paypal-charge-banner="$ctrl.isDisplayablePaypalChargeBanner"
+        data-pci-features="$ctrl.pciFeatures"
+        data-is-displayable-rupay-credit-card-info-banner="$ctrl.isDisplayableRupayCreditCardInfoBanner"
+        data-view-options="$ctrl.viewOptions"
+    >
+    </pci-project-new-payment-method-add>
+</div>

@@ -1,0 +1,274 @@
+<section class="telecom-sms-order">
+    <div class="text-center" data-ng-if="$ctrl.loading.init">
+        <oui-spinner></oui-spinner>
+    </div>
+
+    <div class="widget-presentation" data-ng-if="!$ctrl.loading.init">
+        <oui-header data-heading="{{ 'sms_order_title' | translate }}">
+            <oui-guide-menu
+                data-ng-if="$ctrl.needGuidesMenu"
+                data-text="{{ 'sms_order_header_guide' | translate }}"
+            >
+                <oui-guide-menu-item
+                    data-ng-repeat="guideLink in $ctrl.headerGuideLink track by $index"
+                    data-href="{{:: guideLink.url }}"
+                    data-external
+                >
+                    <span data-ng-bind=":: guideLink.label"></span>
+                </oui-guide-menu-item>
+            </oui-guide-menu>
+        </oui-header>
+
+        <form name="smsOrderForm">
+            <div class="row">
+                <!-- ACCOUNT -->
+                <div class="col-sm-12">
+                    <oui-field
+                        class="col-sm-3"
+                        data-label="{{ 'sms_order_account_label' | translate }}"
+                    >
+                        <oui-select
+                            data-disabled="$ctrl.loading.prices"
+                            data-items="$ctrl.availableAccounts"
+                            data-match="label"
+                            data-model="$ctrl.order.account"
+                            data-name="availableAccountsSelect"
+                            data-on-change="$ctrl.getPrices()"
+                            data-required
+                        >
+                        </oui-select>
+                    </oui-field>
+                </div>
+
+                <div class="col-sm-12 form-group">
+                    <div class="col-sm-3">
+                        <label
+                            for="accountChannelPicker"
+                            class="control-label"
+                            data-translate="sms_order_account_channel_label"
+                        >
+                        </label>
+                    </div>
+                    <div
+                        class="col-sm-12 mt-2 mb-2 d-flex flex-wrap align-content-stretch"
+                    >
+                        <oui-select-picker
+                            class="col-md-3"
+                            data-disabled="$ctrl.loading.prices || $ctrl.order.account.channel"
+                            name="accountChannelPicker"
+                            data-model="$ctrl.order.channel"
+                            data-label="{{ 'sms_order_account_channel_standard_title' | translate }}"
+                            data-values="[$ctrl.SMS_ORDER_ACCOUNT_TYPE_VALUES.standard]"
+                            data-required
+                        >
+                            <oui-select-picker-section>
+                                <span
+                                    data-translate="sms_order_account_channel_standard_description"
+                                ></span>
+                            </oui-select-picker-section>
+                        </oui-select-picker>
+
+                        <oui-select-picker
+                            class="col-md-3"
+                            data-disabled="$ctrl.loading.prices || $ctrl.order.account.channel"
+                            name="accountChannelPicker"
+                            data-model="$ctrl.order.channel"
+                            data-label="{{ 'sms_order_account_channel_marketing_title' | translate }}"
+                            data-values="[$ctrl.SMS_ORDER_ACCOUNT_TYPE_VALUES.marketing]"
+                            data-required
+                        >
+                            <oui-select-picker-section>
+                                <span
+                                    data-translate="sms_order_account_channel_marketing_description"
+                                >
+                                </span>
+                            </oui-select-picker-section>
+                            <oui-select-picker-footer>
+                                <small
+                                    data-translate="sms_order_account_channel_marketing_footer"
+                                >
+                                </small>
+                            </oui-select-picker-footer>
+                        </oui-select-picker>
+
+                        <oui-select-picker
+                            class="col-md-3"
+                            data-disabled="$ctrl.loading.prices || $ctrl.order.account.channel"
+                            name="accountChannelPicker"
+                            data-model="$ctrl.order.channel"
+                            data-label="{{ 'sms_order_account_channel_transactional_title' | translate }}"
+                            data-values="[$ctrl.SMS_ORDER_ACCOUNT_TYPE_VALUES.transactional]"
+                            data-required
+                        >
+                            <oui-select-picker-section>
+                                <span
+                                    data-translate="sms_order_account_channel_transactional_description"
+                                ></span>
+                            </oui-select-picker-section>
+                            <oui-select-picker-footer>
+                                <small
+                                    data-translate="sms_order_account_channel_transactional_footer"
+                                ></small>
+                            </oui-select-picker-footer>
+                        </oui-select-picker>
+                    </div>
+                </div>
+
+                <!-- CREDIT -->
+                <div class="col-sm-12">
+                    <oui-field
+                        class="col-sm-3"
+                        data-label="{{ 'sms_order_credit_label' | translate }}"
+                    >
+                        <oui-select
+                            data-disabled="$ctrl.loading.prices"
+                            data-items="$ctrl.availableCredits"
+                            data-match="label"
+                            data-model="$ctrl.order.credit"
+                            data-name="creditSelect"
+                            data-on-change="$ctrl.getPrices(); $ctrl.order.customCredit = $ctrl.order.min"
+                            data-required
+                        >
+                        </oui-select>
+                    </oui-field>
+                </div>
+
+                <!-- CUSTOMCREDIT -->
+                <div
+                    class="col-sm-12"
+                    data-ng-if="$ctrl.customCreditSelected()"
+                >
+                    <oui-field
+                        class="col-sm-3"
+                        data-label="{{ 'sms_order_credit_custom_label' | translate }}"
+                    >
+                        <oui-numeric
+                            data-min="$ctrl.order.min"
+                            data-max="$ctrl.order.max"
+                            data-model="$ctrl.order.customCredit"
+                            data-on-change="$ctrl.getDebouncedPrices()"
+                            name="customCreditNumeric"
+                        >
+                        </oui-numeric>
+                    </oui-field>
+                </div>
+
+                <div class="col-sm-12">
+                    <div class="col-sm-3" data-ng-if="!$ctrl.loading.prices">
+                        <dl
+                            class="oui-description oui-description_horizontal"
+                            data-ng-repeat="detail in $ctrl.prices.details"
+                            data-ng-if="detail.detailType !== 'MUTE'"
+                        >
+                            <dt
+                                data-ng-if="detail.detailType === 'QUANTITY'"
+                                data-translate="sms_order_price_quantity"
+                            ></dt>
+                            <dt
+                                data-ng-if="detail.detailType === 'GIFT'"
+                                data-translate="sms_order_price_gift"
+                            ></dt>
+                            <dd
+                                data-ng-class="{
+                                    'font-weight-bold text-success' : detail.detailType == 'GIFT',
+                                    'font-weight-bold' : detail.detailType == 'QUANTITY'
+                                }"
+                                data-ng-bind="detail.totalPrice.text"
+                            ></dd>
+                        </dl>
+
+                        <dl class="oui-description oui-description_horizontal">
+                            <dt data-translate="sms_order_price_total_vat"></dt>
+                            <dd
+                                class="font-weight-bold"
+                                data-ng-bind="$ctrl.prices.prices.tax.text"
+                            ></dd>
+                            <dt data-translate="sms_order_price_total"></dt>
+                            <dd
+                                class="font-weight-bold"
+                                data-ng-bind="$ctrl.prices.prices.withTax.text"
+                            ></dd>
+                        </dl>
+                    </div>
+                    <div
+                        class="col-sm-3 text-center"
+                        data-ng-if="$ctrl.loading.prices"
+                    >
+                        <oui-spinner></oui-spinner>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12" data-ng-if="!$ctrl.loading.prices">
+                <ovh-contracts-summary
+                    data-items="$ctrl.contracts"
+                    data-model="$ctrl.contractsAccepted"
+                    data-name="smsOrderContracts"
+                >
+                </ovh-contracts-summary>
+
+                <oui-checkbox
+                    class="mb-4"
+                    model="$ctrl.retract"
+                    name="retract"
+                    required
+                >
+                    <oui-checkbox-label class="col-sm-6">
+                        <span data-translate="sms_order_retract"></span>
+                        <button
+                            type="button"
+                            class="oui-popover-button"
+                            oui-popover="{{ 'sms_order_retract_info' | translate }}"
+                            oui-popover-placement="top-start"
+                        ></button>
+                    </oui-checkbox-label>
+                </oui-checkbox>
+
+                <div data-ng-if="!$ctrl.prices.url">
+                    <button
+                        type="button"
+                        role="button"
+                        class="btn btn-primary"
+                        data-ng-disabled="$ctrl.loading.order || !$ctrl.contractsAccepted || smsOrderForm.$invalid"
+                        data-ng-click="$ctrl.doOrder()"
+                    >
+                        <span
+                            class="ovh-font ovh-font-cart my-0 mr-2"
+                            aria-hidden="true"
+                            data-ng-if="!$ctrl.loading.order"
+                        >
+                        </span>
+                        <oui-spinner
+                            class="mr-2"
+                            data-ng-if="$ctrl.loading.order"
+                            data-size="s"
+                        >
+                        </oui-spinner>
+                        <span data-translate="sms_order_order"></span>
+                    </button>
+                </div>
+
+                <div class="mb-3" data-ng-if="$ctrl.prices.url">
+                    <span data-translate="sms_order_bc"></span>
+                    <a
+                        data-ng-href="{{:: $ctrl.prices.url }}"
+                        rel="noopener"
+                        title="{{:: 'sms_order_order' | translate}}"
+                        target="_blank"
+                        data-track-on="click"
+                        data-track-name="sms::order::display_order-{{$ctrl.order.channel}}-{{$ctrl.getSelectedCredit()}}"
+                        data-track-type="action"
+                    >
+                        <span data-translate="sms_order_order_url"></span>
+                        <span
+                            class="ovh-font ovh-font-newtab ml-2"
+                            aria-hidden="true"
+                        ></span>
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- /.widget-presentation -->
+</section>
+<!-- /.telecom-sms-order -->

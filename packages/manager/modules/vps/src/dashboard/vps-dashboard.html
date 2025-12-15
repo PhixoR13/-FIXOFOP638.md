@@ -1,0 +1,686 @@
+<vps-announcement-banner
+    data-ng-if="$ctrl.isVpsMaintenance"
+    data-stein="$ctrl.stein"
+>
+</vps-announcement-banner>
+
+<oui-message
+    data-ng-if=":: $ctrl.canBeMigrated()"
+    data-type="warning"
+    class="mb-3"
+>
+    <p
+        data-translate="vps_dashboard_auto_migration_warning_part_1_{{ $ctrl.vpsMigration.date ? 'with' : 'without' }}_date"
+        data-translate-values="{ vps: $ctrl.serviceInfo.domain, date: $ctrl.migrationDate }"
+        class="mb-0"
+    ></p>
+    <p
+        class="d-inline"
+        data-translate="vps_dashboard_auto_migration_warning_part_2"
+    ></p>
+    <a
+        class="d-inline oui-link_icon"
+        data-ng-href="{{ $ctrl.migrationFAQLink }}"
+        target="_blank"
+        rel="noopener"
+    >
+        <span data-ng-bind="$ctrl.migrationFAQLink"></span>
+        <span class="oui-icon oui-icon-external-link" aria-hidden="true"></span>
+    </a>
+    <a
+        class="d-block mt-2"
+        data-ng-href="{{ $ctrl.migrationLink }}"
+        data-track-on="click"
+        data-track-name="{{:: $ctrl.trackingPrefix + '::migrate-my-vps-banner' }}"
+        target="_top"
+    >
+        <span data-translate="vps_dashboard_migration_banner_link"></span>
+    </a>
+</oui-message>
+<oui-message data-ng-if="$ctrl.isStarter()" type="info" class="mb-3">
+    <span data-translate="vps_dashboard_starter_range_info_message_1"></span>
+    <a
+        data-ng-href="{{ $ctrl.getRangeCompareLink()}}"
+        target="_blank"
+        data-translate="vps_dashboard_starter_range_info_message_2"
+    ></a>
+</oui-message>
+<oui-message
+    data-ng-if="$ctrl.vpsMigrationTask && $ctrl.vpsMigrationData.inAutoMigrationPhase"
+    data-type="warning"
+>
+    <p
+        data-ng-if="$ctrl.vpsMigrationTask.state === 'todo'"
+        data-translate="vps_dashboard_auto_migration_warning"
+        data-translate-values="{ days: $ctrl.vpsMigrationData.migrationScheduledInDays }"
+    ></p>
+    <p
+        data-ng-if="$ctrl.vpsMigrationTask.state !== 'todo'"
+        data-translate="vps_dashboard_migration_in_progress"
+    ></p>
+</oui-message>
+<oui-message data-ng-if="$ctrl.vpsMigrationTaskInError" data-type="error">
+    <p data-translate="vps_dashboard_migration_in_error"></p>
+</oui-message>
+
+<section>
+    <div class="row d-lg-flex mb-3">
+        <div class="col-xm-12 col-md-4" data-ng-if="$ctrl.isVpsNewRange">
+            <vps-dashboard-tile-information
+                actions="$ctrl.actions"
+                regions-group="$ctrl.regionsGroup"
+                vps="$ctrl.vps"
+                vps-state="$ctrl.stateVps"
+                go-to-kvm="$ctrl.goToKvm"
+                go-to-reboot="$ctrl.goToReboot"
+                go-to-reboot-rescue="$ctrl.goToRebootRescue"
+                go-to-reinstall="$ctrl.goToReinstall"
+                is-migrating="$ctrl.isMigrating"
+            >
+            </vps-dashboard-tile-information>
+        </div>
+        <div
+            class="col-xm-12 col-md-4"
+            data-ng-if="!$ctrl.vps.isExpired && !$ctrl.isVpsNewRange"
+        >
+            <oui-tile
+                data-heading="{{ ::'vps_tile_shortcut' | translate }}"
+                class="h-100"
+            >
+                <oui-tile-button
+                    data-disabled="$ctrl.isMigrating"
+                    data-on-click="$ctrl.actions.terminate.callback()"
+                >
+                    <span data-translate="vps_configuration_terminate"></span>
+                </oui-tile-button>
+                <oui-tile-button
+                    data-disabled="$ctrl.isMigrating"
+                    data-on-click="$ctrl.goToRebootRescue()"
+                    data-ng-if="$ctrl.actions.rebootRescue.isAvailable()"
+                    ><span
+                        data-ng-bind="::$ctrl.actions.rebootRescue.text"
+                    ></span>
+                </oui-tile-button>
+                <oui-tile-button
+                    data-disabled="$ctrl.isMigrating"
+                    data-on-click="$ctrl.goToReboot()"
+                    data-ng-if="$ctrl.actions.reboot.isAvailable()"
+                    ><span data-ng-bind="::$ctrl.actions.reboot.text"></span>
+                </oui-tile-button>
+                <oui-tile-button
+                    data-disabled="$ctrl.isMigrating"
+                    data-on-click="$ctrl.actions.rebuild.callback()"
+                    data-ng-if="$ctrl.actions.rebuild.isAvailable()"
+                >
+                    <span
+                        data-translate="vps_configuration_reinstall_title_button"
+                    ></span>
+                </oui-tile-button>
+                <oui-tile-button
+                    data-disabled="$ctrl.isMigrating"
+                    data-on-click="$ctrl.goToReinstall()"
+                    data-ng-if="$ctrl.actions.reinstall.isAvailable()"
+                    ><span data-ng-bind="::$ctrl.actions.reinstall.text"></span>
+                </oui-tile-button>
+                <oui-tile-button
+                    data-on-click="$ctrl.goToKvm($ctrl.vps.noVNC)"
+                    data-ng-if="$ctrl.actions.kvm.isAvailable()"
+                    ><span data-ng-bind="::$ctrl.actions.kvm.text"></span>
+                </oui-tile-button>
+                <div
+                    class="oui-tile__item oui-tile__item_button"
+                    data-ng-if="$ctrl.actions.changeOwner.isAvailable()"
+                >
+                    <a
+                        data-ng-href="{{ ::$ctrl.actions.changeOwner.href }}"
+                        data-at-internet-click="{ name: $ctrl.action.atInternetClickTag }"
+                        class="oui-tile__button oui-button oui-link_icon oui-button_ghost oui-button_block"
+                        rel="noopener"
+                        target="_blank"
+                    >
+                        <span
+                            data-ng-bind="::$ctrl.actions.changeOwner.text"
+                        ></span>
+                        <i
+                            class="oui-icon oui-icon-external-link"
+                            aria-hidden="true"
+                        ></i>
+                    </a>
+                </div>
+                <div
+                    class="oui-tile__item oui-tile__item_button"
+                    data-ng-if="$ctrl.canBeMigrated()"
+                >
+                    <a
+                        class="oui-tile__button oui-button oui-link_icon"
+                        data-ng-href="{{:: $ctrl.migrationLink }}"
+                        data-track-on="click"
+                        data-track-name="{{:: $ctrl.trackingPrefix + '::migrate-my-vps-banner' }}"
+                        target="_top"
+                    >
+                        <span
+                            data-translate="vps_dashboard_migration_link"
+                        ></span>
+                    </a>
+                </div>
+                <oui-tile-button
+                    data-disabled="$ctrl.isMigrating"
+                    data-on-click="$ctrl.actions.terminate.callback()"
+                    data-ng-if="$ctrl.actions.terminate.isAvailable()"
+                >
+                    <span data-translate="vps_configuration_terminate"></span>
+                </oui-tile-button>
+            </oui-tile>
+        </div>
+
+        <div
+            class="col-xm-12 col-md-4"
+            data-ng-if="!$ctrl.vps.isExpired && !$ctrl.isVpsNewRange"
+        >
+            <oui-tile
+                data-heading="{{ ::'vps_tile_configuration' | translate }}"
+                class=" h-100"
+            >
+                <oui-tile-definition
+                    term="{{ ::'vps_dashboard_state' | translate }}"
+                >
+                    <oui-tile-description>
+                        <vps-state-info
+                            vps-state="$ctrl.stateVps"
+                        ></vps-state-info>
+                    </oui-tile-description>
+                </oui-tile-definition>
+                <oui-tile-definition
+                    data-term="{{ ::'vps_dashboard_name' | translate }}"
+                >
+                    <oui-tile-description>
+                        <span
+                            data-ng-bind="$ctrl.vps.displayName || $ctrl.vps.name"
+                        ></span>
+                        <br />
+                        <a
+                            data-ng-if="$ctrl.canBeMigrated()"
+                            class="oui-tile__button oui-button oui-link_icon"
+                            data-ng-href="{{ $ctrl.migrationLink }}"
+                            data-track-on="click"
+                            data-track-name="{{:: $ctrl.trackingPrefix + '::migrate-my-vps' }}"
+                            target="_top"
+                        >
+                            <span
+                                data-translate="vps_dashboard_migration_link"
+                            ></span>
+                        </a>
+                    </oui-tile-description>
+                    <oui-action-menu
+                        data-compact
+                        data-placement="end"
+                        data-disabled="$ctrl.isMigrating"
+                    >
+                        <oui-action-menu-item
+                            aria-label="{{::$ctrl.actions.changeName.text}}"
+                            data-on-click="$ctrl.actions.changeName.callback()"
+                            ><span
+                                data-ng-bind="::$ctrl.actions.changeName.text"
+                            ></span>
+                        </oui-action-menu-item>
+                    </oui-action-menu>
+                </oui-tile-definition>
+                <oui-tile-definition
+                    data-term="{{ ::'vps_dashboard_product' | translate }}"
+                    data-description="{{ ::$ctrl.vps.model }}"
+                >
+                </oui-tile-definition>
+                <oui-tile-definition
+                    data-term="{{ ::'vps_dashboard_boot' | translate }}"
+                    data-description="{{ ::$ctrl.vps.netbootMode }}"
+                >
+                </oui-tile-definition>
+                <oui-tile-definition
+                    data-term="{{ ::'vps_dashboard_distribution' | translate }}"
+                    data-description="{{ ::$ctrl.vps.distribution.name }}"
+                >
+                </oui-tile-definition>
+                <oui-tile-definition
+                    data-term="{{ ::('vps_zone' | translate) }}"
+                    data-description="{{ ::$ctrl.vps.zone }}"
+                >
+                </oui-tile-definition>
+                <oui-tile-definition
+                    data-term="{{ ::'vps_dashboard_localisation' | translate }}"
+                >
+                    <oui-tile-description>
+                        <div
+                            data-ng-repeat="(key, regions) in $ctrl.regionsGroup track by key"
+                        >
+                            <span
+                                class="{{ ::regions[0].icon }} mr-1"
+                                aria-hidden="true"
+                            ></span>
+                            <span
+                                data-ng-repeat="region in ::regions track by region.microRegion.code"
+                                data-ng-bind=":: region.microRegion.text + (!$last ? ', ' : '')"
+                            ></span>
+                            <span data-ng-if="::key"> - </span>
+                            <span data-ng-bind="::key"></span>
+                        </div>
+                    </oui-tile-description>
+                </oui-tile-definition>
+            </oui-tile>
+        </div>
+
+        <div
+            class="col-xm-12 col-md-4"
+            data-ui-view="configurationTile"
+            data-ng-if="$ctrl.isVpsNewRange"
+        ></div>
+
+        <div class="col-xm-12 col-md-4" data-ng-if="!$ctrl.vps.isExpired">
+            <oui-tile
+                data-heading="{{ ::'vps_tab_ip' | translate }}"
+                class=" h-100"
+            >
+                <oui-tile-definition data-ng-if="$ctrl.loaders.ips">
+                    <oui-tile-description>
+                        <oui-skeleton data-randomized></oui-skeleton>
+                        <oui-skeleton data-randomized></oui-skeleton>
+                        <oui-skeleton data-randomized></oui-skeleton>
+                        <oui-skeleton data-randomized></oui-skeleton>
+                        <oui-skeleton data-randomized></oui-skeleton>
+                        <oui-skeleton data-randomized></oui-skeleton>
+                        <oui-skeleton data-randomized></oui-skeleton>
+                    </oui-tile-description>
+                </oui-tile-definition>
+                <div data-ng-if="!$ctrl.loaders.ips">
+                    <oui-tile-definition
+                        data-term="{{ ::'vps_dashboard_tile_ipv4' | translate }}"
+                    >
+                        <oui-tile-description>
+                            <oui-clipboard
+                                data-model="$ctrl.vps.ipv4"
+                            ></oui-clipboard>
+                        </oui-tile-description>
+                        <oui-action-menu
+                            data-compact
+                            data-ng-if="$ctrl.actions.manageIps.isAvailable() || $ctrl.actions.displayIps.isAvailable()"
+                            data-placement="end"
+                        >
+                            <oui-action-menu-item
+                                data-ng-if="$ctrl.actions.manageIps.isAvailable()"
+                                data-ng-href="{{ ::$ctrl.actions.manageIps.href }}"
+                                ><span
+                                    data-ng-bind="::$ctrl.actions.manageIps.text"
+                                ></span>
+                            </oui-action-menu-item>
+                            <oui-action-menu-item
+                                data-ng-if="$ctrl.actions.displayIps.isAvailable()"
+                                data-on-click="$ctrl.goToDisplayIps()"
+                                ><span
+                                    data-ng-bind="::$ctrl.actions.displayIps.text"
+                                ></span>
+                            </oui-action-menu-item>
+                        </oui-action-menu>
+                    </oui-tile-definition>
+                    <oui-tile-definition
+                        data-term="{{ ::'vps_dashboard_tile_ipv6' | translate }}"
+                    >
+                        <oui-tile-description>
+                            <oui-clipboard
+                                data-model="$ctrl.vps.ipv6"
+                            ></oui-clipboard>
+                        </oui-tile-description>
+                    </oui-tile-definition>
+                    <oui-tile-definition
+                        data-term="{{ ::'vps_configuration_ipV6_gateway_label' | translate }}"
+                    >
+                        <oui-tile-description>
+                            <oui-clipboard
+                                data-model="$ctrl.vps.ipv6Gateway"
+                            ></oui-clipboard>
+                        </oui-tile-description>
+                    </oui-tile-definition>
+                    <oui-tile-definition
+                        data-ng-if="$ctrl.vps.reverseDns"
+                        data-term="{{ ::'vps_dashboard_reverse_dns' | translate }}"
+                        data-description="{{ ::$ctrl.vps.reverseDns }}"
+                    >
+                        <oui-action-menu
+                            data-disabled="$ctrl.isMigrating"
+                            data-compact
+                            data-ng-if="$ctrl.actions.reverseDns.isAvailable()"
+                            data-placement="end"
+                        >
+                            <oui-action-menu-item
+                                data-on-click="$ctrl.goToReverseDns()"
+                                ><span
+                                    data-ng-bind="::$ctrl.actions.reverseDns.text"
+                                ></span
+                            ></oui-action-menu-item>
+                        </oui-action-menu>
+                    </oui-tile-definition>
+                    <oui-tile-definition
+                        data-ng-if="$ctrl.isSecondaryDnsAvailable"
+                        data-term="{{ ::'vps_dashboard_secondary_dns' | translate }}"
+                    >
+                        <oui-tile-description>
+                            <p>
+                                {{ $ctrl.vps.secondaryDns }}
+                            </p>
+                            <div
+                                ng-if="$ctrl.vps.secondaryDns === ('vps_dashboard_secondary_dns_count_0' | translate)"
+                            >
+                                <p>
+                                    {{ ::'vps_dashboard_domain_link_message' |
+                                    translate}}
+                                </p>
+                                <a
+                                    class="oui-button oui-button_secondary"
+                                    data-ng-href="{{ $ctrl.ADD_DOMAIN_LINK }}"
+                                    data-track-on="click"
+                                    data-track-name="{{:: $ctrl.trackingPrefix + '::migrate-my-vps' }}"
+                                    target="_top"
+                                >
+                                    <span
+                                        data-translate="vps_dashboard_domain_link"
+                                    ></span>
+                                </a>
+                            </div>
+                        </oui-tile-description>
+                    </oui-tile-definition>
+                </div>
+            </oui-tile>
+        </div>
+    </div>
+
+    <div class="row d-lg-flex">
+        <div
+            class="col-xm-12 col-md-4 mb-3"
+            data-ng-if="!$ctrl.vps.isExpired && $ctrl.hasFeature($ctrl.DASHBOARD_FEATURES.summary)"
+        >
+            <oui-tile
+                data-heading="{{ ::'vps_tab_summary_backup' | translate }}"
+                class="h-100"
+            >
+                <oui-tile-definition data-ng-if="$ctrl.loaders.disk">
+                    <oui-tile-description>
+                        <oui-skeleton data-randomized></oui-skeleton>
+                        <oui-skeleton data-randomized></oui-skeleton>
+                        <oui-skeleton data-randomized></oui-skeleton>
+                        <oui-skeleton data-randomized></oui-skeleton>
+                        <oui-skeleton data-randomized></oui-skeleton>
+                        <oui-skeleton data-randomized></oui-skeleton>
+                        <oui-skeleton data-randomized></oui-skeleton>
+                    </oui-tile-description>
+                </oui-tile-definition>
+                <div data-ng-if="!$ctrl.loaders.disk">
+                    <oui-tile-definition
+                        data-term="{{ ::'vps_tab_backup_storage' | translate }}"
+                        data-ng-if="$ctrl.hasBackupStorage"
+                    >
+                        <oui-tile-description>
+                            <span
+                                data-ng-if="$ctrl.tabSummary.ftpBackup.optionAvailable"
+                                data-translate="{{ 'vps_status_' + ($ctrl.tabSummary.ftpBackup.optionActivated ? 'enabled' : 'disabled') }}"
+                            >
+                            </span>
+                            <span
+                                data-ng-if="!$ctrl.tabSummary.ftpBackup.optionAvailable"
+                                data-translate="vps_option_unavailable"
+                            >
+                            </span>
+                        </oui-tile-description>
+                        <oui-action-menu
+                            data-disabled="$ctrl.isMigrating"
+                            data-compact
+                            data-ng-if="$ctrl.tabSummary.ftpBackup.optionAvailable"
+                            data-placement="end"
+                        >
+                            <oui-action-menu-item
+                                aria-label="{{::$ctrl.backupStorageActions.manage.text}}"
+                                data-on-click="$ctrl.backupStorageActions.manage.callback()"
+                                data-ng-if="$ctrl.tabSummary.ftpBackup.optionActivated"
+                                ><span
+                                    data-ng-bind="::$ctrl.backupStorageActions.manage.text"
+                                ></span>
+                            </oui-action-menu-item>
+                            <oui-action-menu-item
+                                aria-label="{{::$ctrl.backupStorageActions.terminate.text}}"
+                                data-on-click="$ctrl.goToTerminateOption('ftpBackup')"
+                                data-ng-if="$ctrl.tabSummary.ftpBackup.optionActivated"
+                                ><span
+                                    data-ng-bind="::$ctrl.backupStorageActions.terminate.text"
+                                ></span>
+                            </oui-action-menu-item>
+                            <oui-action-menu-item
+                                aria-label="{{::$ctrl.backupStorageActions.order.text}}"
+                                data-on-click="$ctrl.backupStorageActions.order.callback()"
+                                data-ng-if="!$ctrl.tabSummary.ftpBackup.optionActivated"
+                                ><span
+                                    data-ng-bind="::$ctrl.backupStorageActions.order.text"
+                                ></span>
+                            </oui-action-menu-item>
+                        </oui-action-menu>
+                    </oui-tile-definition>
+                    <oui-tile-definition
+                        data-term="{{ ::'vps_tab_snapshot' | translate }}"
+                    >
+                        <oui-tile-description>
+                            <span
+                                data-ng-if="$ctrl.tabSummary.snapshot.optionActivated"
+                                data-ng-bind="::$ctrl.snapshotDescription"
+                            ></span>
+                            <span
+                                data-ng-if="!$ctrl.tabSummary.snapshot.optionActivated"
+                                data-translate="vps_status_disabled"
+                            ></span>
+                        </oui-tile-description>
+                        <oui-action-menu
+                            data-disabled="$ctrl.isMigrating"
+                            data-compact
+                            data-ng-if="$ctrl.tabSummary.snapshot.optionActivated"
+                            data-placement="end"
+                        >
+                            <oui-action-menu-item
+                                aria-label="{{::$ctrl.snapshotActions.delete.text}}"
+                                data-on-click="$ctrl.goToSnapshotDelete()"
+                                data-ng-if="$ctrl.tabSummary.snapshot.optionActivated && $ctrl.snapshotActions.delete.isAvailable()"
+                                ><span
+                                    data-ng-bind="::$ctrl.snapshotActions.delete.text"
+                                ></span>
+                            </oui-action-menu-item>
+                            <oui-action-menu-item
+                                aria-label="{{::$ctrl.snapshotActions.restore.text}}"
+                                data-on-click="$ctrl.goToSnapshotRestore()"
+                                data-ng-if="$ctrl.tabSummary.snapshot.optionActivated && $ctrl.snapshotActions.restore.isAvailable()"
+                                ><span
+                                    data-ng-bind="::$ctrl.snapshotActions.restore.text"
+                                ></span>
+                            </oui-action-menu-item>
+                            <oui-action-menu-item
+                                aria-label="{{::$ctrl.snapshotActions.take.text}}"
+                                data-on-click="$ctrl.goToSnapshotTake()"
+                                data-ng-if="$ctrl.tabSummary.snapshot.optionActivated && $ctrl.snapshotActions.take.isAvailable()"
+                                ><span
+                                    data-ng-bind="::$ctrl.snapshotActions.take.text"
+                                ></span>
+                            </oui-action-menu-item>
+                            <oui-action-menu-item
+                                aria-label="{{::$ctrl.snapshotActions.download.text}}"
+                                data-on-click="$ctrl.goToSnapshotDownload()"
+                                data-ng-if="$ctrl.snapshotActions.download.isAvailable()"
+                                ><span
+                                    data-ng-bind="::$ctrl.snapshotActions.download.text"
+                                ></span>
+                            </oui-action-menu-item>
+                            <oui-action-menu-item
+                                aria-label="{{::$ctrl.snapshotActions.terminate.text}}"
+                                data-on-click="$ctrl.goToTerminateOption('snapshot')"
+                                data-ng-if="$ctrl.tabSummary.snapshot.optionActivated && $ctrl.snapshotActions.terminate.isAvailable()"
+                                ><span
+                                    data-ng-bind="::$ctrl.snapshotActions.terminate.text"
+                                ></span>
+                            </oui-action-menu-item>
+                        </oui-action-menu>
+                        <oui-action-menu
+                            data-disabled="$ctrl.isMigrating"
+                            data-compact
+                            data-ng-if="!$ctrl.tabSummary.snapshot.optionActivated && $ctrl.snapshotActions.order.isAvailable()"
+                            data-placement="end"
+                        >
+                            <oui-action-menu-item
+                                aria-label="{{::$ctrl.snapshotActions.order.text}}"
+                                data-on-click="$ctrl.snapshotActions.order.callback()"
+                                data-ng-if="$ctrl.snapshotActions.order.isAvailable()"
+                                ><span
+                                    data-ng-bind="::$ctrl.snapshotActions.order.text"
+                                ></span>
+                            </oui-action-menu-item>
+                        </oui-action-menu>
+                    </oui-tile-definition>
+                    <oui-tile-definition
+                        data-term="{{ ::'vps_tab_veeam' | translate }}"
+                    >
+                        <oui-tile-description>
+                            <span
+                                data-ng-if="$ctrl.tabSummary.veeam.optionAvailable"
+                                data-translate="{{ 'vps_status_' + ($ctrl.tabSummary.veeam.optionActivated ? 'enabled' : 'disabled') }}"
+                            >
+                            </span>
+                            <span
+                                class="d-block"
+                                data-ng-bind="::$ctrl.lastBackup"
+                            ></span>
+                            <span
+                                data-ng-if="!$ctrl.tabSummary.veeam.optionAvailable"
+                                data-translate="vps_option_unavailable"
+                            >
+                            </span>
+
+                            <oui-message
+                                ng-if="$ctrl.isStarter()"
+                                type="info"
+                                class="mb-3"
+                            >
+                                <p
+                                    data-translate="vps_dashboard_automatic_backup_starter_range_info_message"
+                                ></p>
+                            </oui-message>
+                        </oui-tile-description>
+                        <oui-action-menu
+                            data-disabled="$ctrl.isMigrating"
+                            data-compact
+                            data-ng-if="$ctrl.tabSummary.veeam.optionAvailable"
+                            data-placement="end"
+                        >
+                            <oui-action-menu-item
+                                aria-label="{{::$ctrl.veeamActions.manage.text}}"
+                                data-on-click="$ctrl.veeamActions.manage.callback()"
+                                data-ng-if="$ctrl.tabSummary.veeam.optionActivated"
+                                ><span
+                                    data-ng-bind="::$ctrl.veeamActions.manage.text"
+                                ></span>
+                            </oui-action-menu-item>
+                            <oui-action-menu-item
+                                aria-label="{{::$ctrl.veeamActions.terminate.text}}"
+                                data-on-click="$ctrl.goToTerminateOption('automatedBackup')"
+                                data-ng-if="$ctrl.tabSummary.veeam.optionActivated"
+                                ><span
+                                    data-ng-bind="::$ctrl.veeamActions.terminate.text"
+                                ></span>
+                            </oui-action-menu-item>
+                            <oui-action-menu-item
+                                aria-label="{{::$ctrl.veeamActions.order.text}}"
+                                data-on-click="$ctrl.veeamActions.order.callback()"
+                                data-ng-if="!$ctrl.tabSummary.veeam.optionActivated"
+                                ><span
+                                    data-ng-bind="::$ctrl.veeamActions.order.text"
+                                ></span>
+                            </oui-action-menu-item>
+                        </oui-action-menu>
+                    </oui-tile-definition>
+                    <oui-tile-definition
+                        data-term="{{ ::'vps_order_windows_title' | translate }}"
+                        data-ng-if="$ctrl.tabSummary.windows.optionActivated"
+                    >
+                        <oui-tile-description>
+                            <span data-translate="vps_status_enabled"></span>
+                        </oui-tile-description>
+                    </oui-tile-definition>
+                    <oui-tile-definition
+                        data-term="{{ ::'vps_dashboard_monitoring_sla' | translate }}"
+                        data-ng-if="!$ctrl.vps.isExpired && $ctrl.hasFeature($ctrl.DASHBOARD_FEATURES.status) && !$ctrl.isVpsNewRange"
+                    >
+                        <oui-tile-description>
+                            <span
+                                data-ng-if="$ctrl.vps.slaMonitoring"
+                                data-translate="vps_status_enabled"
+                            ></span>
+                            <span
+                                data-ng-if="!$ctrl.vps.slaMonitoring"
+                                data-translate="vps_status_disabled"
+                            ></span>
+                        </oui-tile-description>
+                        <oui-action-menu
+                            data-compact
+                            data-placement="end"
+                            data-disabled="$ctrl.isMigrating"
+                        >
+                            <oui-action-menu-item
+                                data-ng-if="$ctrl.actions.manageSla.isAvailable()"
+                                data-on-click="$ctrl.goToMonitoringSla(false, !$ctrl.vps.slaMonitoring)"
+                                ><span
+                                    data-ng-bind="::$ctrl.actions.manageSla.text"
+                                ></span
+                            ></oui-action-menu-item>
+                            <oui-action-menu-item
+                                data-on-click="$ctrl.goToMonitoringSla(true, true)"
+                                ><span
+                                    data-ng-bind="::$ctrl.actions.viewIpSla.text"
+                                ></span
+                            ></oui-action-menu-item>
+                        </oui-action-menu>
+                    </oui-tile-definition>
+                </div>
+            </oui-tile>
+        </div>
+
+        <div class="col-xm-12 col-md-4 mb-3">
+            <billing-subscription-tile
+                on-error="$ctrl.onBillingInformationError(error)"
+                service-path="{{ ::'/vps/' + $ctrl.serviceName }}"
+                with-engagement="$ctrl.isCommitmentAvailable"
+                go-to-commit="$ctrl.goToCommit()"
+                go-to-cancel-commit="$ctrl.goToCancelCommit()"
+                go-to-cancel-resiliation="$ctrl.goToCancelResiliation()"
+                go-to-resiliation="$ctrl.goToResiliation()"
+                service-infos="$ctrl.serviceInfo"
+                highlight-engagement="$ctrl.shouldReengage"
+                tracking-prefix="{{ ::'VPS::vps::' + $ctrl.getTrackingProductLine() }}"
+                tracking-page="{{ 'VPS::vps::'+ $ctrl.getTrackingProductLine() + '::' + $ctrl.getTrackingProductLine() + '::dashboard::general-information' }}"
+                tracking-name-suffix="{{ $ctrl.getTrackingProductLine() }}"
+                user="$ctrl.connectedUser"
+                commit-impression-data="$ctrl.shouldReengage ?
+                    $ctrl.RECOMMIT_IMPRESSION_TRACKING_DATA :
+                    $ctrl.COMMIT_IMPRESSION_TRACKING_DATA"
+            >
+            </billing-subscription-tile>
+        </div>
+        <!-- Retention Advices -->
+        <ovh-advices
+            data-ng-if="!$ctrl.vps.isExpired"
+            class="col-xm-12 col-md-4 mb-3"
+            url="/retention/vps/:serviceName"
+            url-params="{ serviceName: $ctrl.serviceName }"
+            advice-type="retention"
+        >
+        </ovh-advices>
+        <!-- advices -->
+        <div class="col-xm-12 col-md-4 mb-3" data-ng-if="!$ctrl.vps.isExpired">
+            <ovh-advices
+                service-name="{{ ::$ctrl.serviceName }}"
+                service-type="{{ ::$ctrl.SERVICE_TYPE }}"
+                recommander-range="vps"
+            >
+            </ovh-advices>
+        </div>
+    </div>
+</section>

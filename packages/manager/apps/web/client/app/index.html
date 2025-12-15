@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html class="h-100">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta name="viewport" content="width=device-width" />
+        <title>OVH</title>
+        <link rel="shortcut icon" href="assets/images/favicon.png" />
+        <link rel="apple-touch-icon" href="assets/images/touchicon-180.png" />
+        <style type="text/css">
+            .ng-cloak {
+                display: none !important;
+            }
+        </style>
+    </head>
+    <body
+        data-ng-controller="WebAppCtrl as $ctrl"
+        class="h-100 ovh-manager-web-app"
+        style="overflow: hidden;"
+        data-ng-class="{'in-container': !$ctrl.isTopLevelApplication}"
+    >
+        <div class="h-100 d-flex flex-column overflow-hidden ng-cloak">
+            <!-- Skip to main content -->
+            <div class="skipnav">
+                <a
+                    class="oui-button oui-button_ghost"
+                    href
+                    data-translate="common_skip_to_main_content"
+                    data-ng-click="scrollTo('maincontent')"
+                >
+                </a>
+            </div>
+            <!-- /Skip to main content -->
+            <div
+                class="container-fluid h-100 w-100"
+                style="overflow: auto"
+                data-ui-view="app"
+            >
+                <div class="row">
+                    <div class="px-0 col-lg-12">
+                        <!-- Skip content target -->
+                        <div class="skiptarget">
+                            <a id="maincontent" href>-</a>
+                        </div>
+
+                        <ovh-manager-banner-text></ovh-manager-banner-text>
+                        <account-migration-notification></account-migration-notification>
+
+                        <!-- /Skip content target -->
+
+                        <div
+                            class="container-fluid px-md-5 px-3 mt-3"
+                            id="topWebUniverse"
+                        >
+                            <ui-router-breadcrumb></ui-router-breadcrumb>
+                            <div data-ui-view class="pb-5 mt-3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div data-ng-controller="DoubleAuthBackupCodeCtrl" class="ng-cloak">
+            <div
+                class="modal fade currentAction"
+                id="currentActionDoubleAlert"
+                tabindex="-1"
+                role="dialog"
+                aria-hidden="true"
+            >
+                <div class="modal-dialog">
+                    <div
+                        class="modal-content"
+                        id="modal-container"
+                        data-ng-include="stepPath"
+                    ></div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            var CKEDITOR_BASEPATH =
+                (window.location.pathname !== '/'
+                    ? window.location.pathname
+                          .split('/')
+                          .splice(
+                              0,
+                              window.location.pathname.split('/').length - 1,
+                          )
+                          .join('/')
+                    : '') + '/ckeditor/';
+        </script>
+    </body>
+</html>

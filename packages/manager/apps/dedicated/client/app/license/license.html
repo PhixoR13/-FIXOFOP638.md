@@ -1,0 +1,187 @@
+<oui-spinner
+    data-ng-hide="!loadingLicensesInformations || loadingLicensesError"
+></oui-spinner>
+
+<div data-ng-hide="loadingLicensesInformations || loadingLicensesError">
+    <oui-header>
+        <oui-header-heading>
+            <div class="d-flex justify-content-between">
+                <h1
+                    class="oui-header__title"
+                    data-translate="{{:: 'license_dashboard_title' | translate}}"
+                ></h1>
+                <changelog-button
+                    links="constants.CHANGELOG.licenses.links"
+                    chapters="constants.CHANGELOG.licenses.chapters"
+                ></changelog-button>
+            </div>
+        </oui-header-heading>
+    </oui-header>
+
+    <div>
+        <div class="row d-md-flex mb-3">
+            <ovh-manager-cpanel-eol-banner
+                data-ng-if="hasCpanel"
+            ></ovh-manager-cpanel-eol-banner>
+            <div class="col-md-6">
+                <h2
+                    class="oui-heading_3"
+                    data-translate="license_dashboard_subtitle"
+                ></h2>
+                <div data-ovh-alert></div>
+                <div class="oui-action-menu-container">
+                    <oui-action-menu
+                        aria-label="{{:: 'menu_action_label' | translate:{ t0: ('license_dashboard_subtitle' | translate) } }}"
+                        data-text="{{ :: 'common_actions' | translate }}"
+                    >
+                        <oui-action-menu-item
+                            aria-label="{{:: 'license_order_title_button' | translate }}"
+                            data-on-click="onGoToLicenseOrder()"
+                            ><span
+                                data-translate="license_order_title_button"
+                            ></span>
+                        </oui-action-menu-item>
+                        <oui-action-menu-item
+                            aria-label="{{:: 'license_spla_add_title_button' | translate }}"
+                            data-on-click="onGoToLicenseSpla()"
+                            ><span
+                                data-translate="license_spla_add_title_button"
+                            ></span>
+                        </oui-action-menu-item>
+                    </oui-action-menu>
+                </div>
+            </div>
+        </div>
+
+        <oui-datagrid
+            class="table-striped"
+            rows-loader="loadDatagridLicences($config)"
+        >
+            <oui-datagrid-column
+                title=":: 'license_dashboard_table_title_type' | translate"
+                property="type"
+                type="text"
+            >
+                <span
+                    data-translate="{{:: 'license_designation_' + $row.type }}"
+                    data-translate-default="{{:: capitalize($row.type) }}"
+                ></span>
+            </oui-datagrid-column>
+            <oui-datagrid-column
+                title=":: 'license_dashboard_table_title_name' | translate"
+                property="id"
+                type="text"
+            >
+                <span
+                    data-ng-if="$row.type !== licenseTypes.SPLA"
+                    data-translate="{{:: 'license_designation_' + $row.type + '_version_' + $row.version }}"
+                    data-translate-default="{{:: formatName($row) }}"
+                >
+                </span>
+                <span
+                    data-ng-if="$row.type === licenseTypes.SPLA"
+                    data-translate="{{:: 'license_designation_' + $row.type + '_type_' + $row.splaType }}"
+                >
+                </span>
+            </oui-datagrid-column>
+            <oui-datagrid-column
+                title=":: 'license_dashboard_table_title_id' | translate"
+                property="id"
+                type="text"
+            >
+                <span data-ng-bind="$row.licenseId || '-'"></span>
+            </oui-datagrid-column>
+            <oui-datagrid-column
+                title=":: 'license_dashboard_table_title_ip' | translate"
+                property="ip"
+                type="text"
+            >
+            </oui-datagrid-column>
+            <oui-datagrid-column
+                title=":: 'license_dashboard_table_title_service' | translate"
+                property="serviceName"
+                type="text"
+            >
+                <span
+                    data-ng-if="$row.type !== licenseTypes.SPLA"
+                    data-ng-bind="$row.serviceName"
+                ></span>
+                <span
+                    data-ng-if="$row.type === licenseTypes.SPLA"
+                    data-ng-bind="$row.serverServiceName"
+                ></span>
+            </oui-datagrid-column>
+            <oui-datagrid-column
+                title=":: 'license_dashboard_table_title_expiration' | translate"
+                property="expiration"
+            >
+                <service-expiration-label service-infos="$row">
+                </service-expiration-label>
+                <service-expiration-date
+                    hide-renew-action="true"
+                    service-name="$row.serviceName"
+                    service-type
+                    service-infos="$row"
+                    inline="true"
+                >
+                </service-expiration-date>
+            </oui-datagrid-column>
+
+            <oui-action-menu compact data-placement="end">
+                <oui-action-menu-item
+                    href="{{ $state.href('app.license.detail', { licenseId: getLicenseId($row) }) }}"
+                    ><span
+                        data-translate="license_dashboard_table_popover_details"
+                    ></span>
+                </oui-action-menu-item>
+                <oui-action-menu-item
+                    data-ng-if="$row.canBeMoved === true && !$row.isExpired"
+                    on-click="setAction('migrate/license-migrate', { 'license': $row })"
+                    ><span
+                        data-translate="license_dashboard_table_popover_move"
+                    ></span>
+                </oui-action-menu-item>
+                <oui-action-menu-item
+                    data-ng-if="$row.type === licenseTypes.SPLA"
+                    on-click="setAction('spla/revoke/license-spla-revoke', { 'license': $row })"
+                    ><span
+                        data-translate="license_dashboard_table_popover_revoke"
+                    ></span>
+                </oui-action-menu-item>
+                <oui-action-menu-item
+                    data-ng-if="$row.canBeUpgraded === true && !$row.isExpired && canUpgrade"
+                    href="{{ $state.href('app.license.detail.upgrade', { licenseId: getLicenseId($row) }) }}"
+                    ><span
+                        data-translate="license_dashboard_table_popover_upgrade"
+                    ></span>
+                </oui-action-menu-item>
+                <oui-action-menu-item
+                    data-ng-if="$row.isExpired && canRenewLicense($row.type)"
+                    href="{{ getRenewUrl() + $row.id }}"
+                    top
+                    ><span
+                        data-translate="license_dashboard_table_popover_renew"
+                    ></span>
+                </oui-action-menu-item>
+                <oui-action-menu-item
+                    data-ng-if="$row.type !== licenseTypes.SPLA && !$row.isExpired"
+                    on-click="setAction('delete/license-delete', { 'license': $row })"
+                    ><span
+                        data-translate="license_dashboard_table_popover_delete"
+                    ></span>
+                </oui-action-menu-item>
+            </oui-action-menu>
+        </oui-datagrid>
+    </div>
+</div>
+
+<div id="currentAction" class="modal fade currentAction" data-role="dialog">
+    <div class="modal-dialog">
+        <div
+            id="modal-container"
+            class="modal-content"
+            data-ng-include="stepPath"
+        ></div>
+        <div id="modal-help" class="help4wizards" style="width: 230px;"></div>
+    </div>
+</div>

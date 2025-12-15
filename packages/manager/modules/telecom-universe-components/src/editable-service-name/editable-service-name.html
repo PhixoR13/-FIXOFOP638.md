@@ -1,0 +1,86 @@
+<form
+    name="editableServiceNameForm"
+    data-ng-submit="!editableServiceNameForm.$invalid && $ctrl.saveServiceName()"
+>
+    <div
+        data-ng-hide="$ctrl.inEdition"
+        data-ng-class="{ 'd-flex': !$ctrl.inEdition }"
+    >
+        <h1 class="oui-header__title" data-ng-bind="$ctrl.title"></h1>
+
+        <span data-ng-if="!$ctrl.inEdition">
+            <button
+                type="button"
+                class="btn btn-editable h-100"
+                data-ng-click=":: $ctrl.startEdition()"
+                data-ng-disabled="$ctrl.disabled"
+            >
+                <span
+                    class="oui-icon oui-icon-pen_concept"
+                    aria-hidden="true"
+                ></span>
+                <span
+                    class="sr-only"
+                    data-translate="tuc_editableServiceName_change"
+                ></span>
+            </button>
+        </span>
+    </div>
+
+    <div data-ng-if="$ctrl.inEdition && !$ctrl.loading.save">
+        <label
+            for="tuc_editableServiceName_input"
+            data-translate="tuc_editableServiceName_label"
+        ></label>
+        <div class="d-flex">
+            <input
+                id="tuc_editableServiceName_input"
+                class="service-name-edit-input align-middle "
+                name="editableServiceNameInput"
+                data-ng-maxlength="$ctrl.maxlength"
+                data-ng-model="$ctrl.model.serviceName"
+                data-ng-readonly="$ctrl.loading.save"
+                data-ng-pattern="/^[^<>]+$/"
+                type="text"
+            />
+
+            <button
+                type="submit"
+                class="btn btn-editable px-2 h-100"
+                data-ng-disabled="!editableServiceNameForm.editableServiceNameInput.$valid"
+            >
+                <span
+                    class="oui-icon oui-icon-success"
+                    aria-hidden="true"
+                ></span>
+                <span
+                    class="sr-only"
+                    data-translate="tuc_editableServiceName_confirm"
+                ></span>
+            </button>
+
+            <button
+                type="button"
+                class="btn btn-editable px-2 h-100"
+                data-ng-click=":: $ctrl.cancelEdition()"
+            >
+                <span class="oui-icon oui-icon-close" aria-hidden="true"></span>
+                <span
+                    class="sr-only"
+                    data-translate="tuc_editableServiceName_cancel"
+                ></span>
+            </button>
+        </div>
+    </div>
+
+    <h2
+        class="oui-header__description d-inline"
+        data-ng-bind=":: $ctrl.serviceName"
+    ></h2>
+
+    <h2
+        data-ng-if="$ctrl.serviceNameAppendix"
+        class="oui-header__description d-inline"
+        data-ng-bind=":: ' | ' + $ctrl.serviceNameAppendix"
+    ></h2>
+</form>

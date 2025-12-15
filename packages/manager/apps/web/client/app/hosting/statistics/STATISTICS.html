@@ -1,0 +1,122 @@
+<div data-ng-controller="HostingStatisticsCtrl">
+    <div class="text-center" data-ng-if="!model.constants">
+        <oui-spinner></oui-spinner>
+    </div>
+
+    <div data-ng-if="model.constants">
+        <div class="oui-box">
+            <div
+                class="d-md-flex align-items-md-center justify-content-md-between"
+            >
+                <div>
+                    <label
+                        class="oui-label d-inline-block mr-2"
+                        for="hostingStatisticsType"
+                    >
+                        <span
+                            data-translate="hosting_tab_STATISTICS_type"
+                        ></span
+                        >&nbsp;:
+                    </label>
+                    <div class="oui-select mb-0 oui-select_inline align-middle">
+                        <select
+                            class="oui-select__input"
+                            id="hostingStatisticsType"
+                            name="type"
+                            data-ng-change="initChart()"
+                            data-ng-model="selected.type"
+                            data-ng-options="option as ('hosting_tab_STATISTICS_type_' + option.label | translate) for option in model.constants.types track by option.label"
+                        >
+                        </select>
+                        <span
+                            class="oui-icon oui-icon-chevron-down"
+                            aria-hidden="true"
+                        ></span>
+                    </div>
+                </div>
+                <div>
+                    <label
+                        class="oui-label d-inline-block mr-2"
+                        for="hostingStatisticsPeriod"
+                    >
+                        <span
+                            data-translate="hosting_tab_STATISTICS_period"
+                        ></span
+                        >&nbsp;:
+                    </label>
+                    <div class="oui-select mb-0 oui-select_inline align-middle">
+                        <select
+                            class="oui-select__input"
+                            id="hostingStatisticsPeriod"
+                            name="period"
+                            data-ng-change="initChart()"
+                            data-ng-model="selected.period"
+                            data-ng-options="option as ('hosting_tab_STATISTICS_period_' + option.label | translate) for option in model.constants.periods track by option.label"
+                        >
+                        </select>
+                        <span
+                            class="oui-icon oui-icon-chevron-down"
+                            aria-hidden="true"
+                        ></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <oui-message class="my-5" data-ng-if="migration" type="info">
+            <span
+                data-translate="hosting_offer_changing_datavis_tool"
+                data-translate-values="{ url: STATUS_OVHCLOUD_URL }"
+            >
+            </span>
+        </oui-message>
+        <div>
+            <div
+                class="my-5 text-center"
+                data-ng-if="selected.type.label === 'IN_HTTP_HITS'"
+            >
+                <span
+                    class="oui-label d-inline-block mr-2"
+                    data-translate="hosting_tab_STATISTICS_aggregate"
+                ></span>
+                <div
+                    class="oui-radio oui-radio_inline"
+                    data-ng-repeat="option in model.constants.aggregateModes track by option"
+                >
+                    <input
+                        type="radio"
+                        class="oui-radio__input"
+                        id="aggregateModes-{{$index}}"
+                        name="aggregationModel"
+                        data-ng-change="initChart()"
+                        data-ng-model="selected.aggregateMode"
+                        data-ng-value="option"
+                    />
+                    <label
+                        class="oui-radio__label-container"
+                        for="aggregateModes-{{$index}}"
+                    >
+                        <span class="oui-radio__label">
+                            <span class="oui-radio__icon"></span>
+                            <span
+                                class="oui-radio__text"
+                                data-ng-bind="'hosting_tab_STATISTICS_aggregate_' + option | translate"
+                            ></span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+            <div class="text-center mt-5" data-ng-if="loadingGraph">
+                <oui-spinner data-size="l"></oui-spinner>
+            </div>
+            <div
+                data-ng-if="!loadingGraph"
+                style="height: 350px"
+                class="chart-container mt-5"
+                data-chart
+                data-chartjs="chart"
+                data-auto-reload="true"
+            ></div>
+        </div>
+    </div>
+</div>

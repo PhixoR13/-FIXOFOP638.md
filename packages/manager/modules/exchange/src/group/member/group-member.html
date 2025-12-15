@@ -1,0 +1,20 @@
+<div>
+    <oui-back-button data-on-click="ctrl.goToGroup()"></oui-back-button>
+    <h2
+        data-ng-bind-html="'exchange_GROUPS_member_intro' | translate:{ t0: ctrl.services.navigation.selectedGroup.mailingListDisplayName }"
+    ></h2>
+
+    <oui-datagrid data-rows-loader="ctrl.getMembersByGroup($config)">
+        <oui-datagrid-column
+            data-title="'exchange_tab_GROUPS_all_table_user' | translate"
+            data-property="displayAddress"
+        ></oui-datagrid-column>
+        <oui-action-menu data-compact data-placement="end">
+            <oui-action-menu-item data-on-click="ctrl.removeMember($row)"
+                ><span
+                    data-translate="exchange_tab_account_delete_account"
+                ></span
+            ></oui-action-menu-item>
+        </oui-action-menu>
+    </oui-datagrid>
+</div>

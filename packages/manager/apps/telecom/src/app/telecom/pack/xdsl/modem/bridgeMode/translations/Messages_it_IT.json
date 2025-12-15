@@ -1,0 +1,10 @@
+{
+  "xdsl_modem_bridge_mode_status": "Mode bridge activé",
+  "xdsl_modem_bridge_mode_description": "L'attivazione della modalità Bridge è riservata a un utilizzo avanzato. Questa modalità può rivelarsi utile per utilizzare il tuo router connesso dietro il modem OVHcloud. Se non hai un router, una sola periferica potrà ottenere l'indirizzo IP pubblico dell'accesso e quindi disporre di un accesso a Internet. L'attivazione di questa modalità disattiverà numerose funzionalità del modem, in particolare il Wifi e i reindirizzamenti delle porte.",
+  "xdsl_modem_bridge_mode_warning": "Attenzione: una volta attivata la modalità Bridge, per ritornare alla modalità Router sarà necessario effettuare un reset manuale del tuo modem e ripristinare le impostazioni predefinite.",
+  "xdsl_modem_bridge_mode_success_validation_on": "Attivazione modalità Bridge in corso...",
+  "xdsl_modem_bridge_mode_success_validation_off": "Disattiva la modalità Bridge: ripristina manualmente il tuo modem per confermare l'operazione.",
+  "xdsl_modem_bridge_mode_an_error_ocurred": "[Modalità Bridge] Si è verificato un errore!",
+  "xdsl_modem_bridge_really_on": "Vuoi davvero attivare la modalità Bridge?",
+  "xdsl_modem_bridge_really_off": "Vuoi davvero disattivare la modalità Bridge?"
+}

@@ -1,0 +1,130 @@
+<oui-header heading="{{:: 'license_order_title' | translate }}"> </oui-header>
+
+<div class="text-center" data-ng-show="loaders.ips">
+    <oui-spinner></oui-spinner>
+</div>
+
+<div data-ng-show="loaders.ips == false">
+    <div data-ovh-alert="{{ alerts.order }}"></div>
+
+    <a
+        class="d-inline-block mb-5"
+        title="{{ 'license_details_back' | translate }}"
+        data-ui-sref="app.license.dashboard"
+    >
+        <span class="fa fa-chevron-left mr-2" aria-hidden="true"> </span>
+        <span data-translate="license_details_back"></span>
+    </a>
+
+    <div
+        class="alert alert-warning"
+        data-ng-if="availableIpBlock.ips.length === 0"
+        role="alert"
+        data-translate="license_order_no_license_available"
+    ></div>
+
+    <oui-message
+        class="d-block mb-4"
+        data-type="info"
+        data-ng-if="user.isEnterprise"
+    >
+        <span data-translate="core_user_enterprise_retail_prices"></span>
+    </oui-message>
+
+    <div class="row d-md-flex" data-ng-if="availableIpBlock.ips.length > 0">
+        <div class="col-md-10 col-lg-6">
+            <!-- step 1 -->
+            <h2 data-translate="license_order_step1_title"></h2>
+
+            <div class="form-group">
+                <label
+                    for="selectedIpBlock"
+                    class="control-label"
+                    data-translate="license_order_step1_ip_block"
+                >
+                </label>
+                <div class="input-group">
+                    <select
+                        class="form-control"
+                        id="selectedIpBlock"
+                        name="selectedIpBlock"
+                        data-ng-options="ip as getBlockDisplay(ip) group by (ip.serviceName || '--') for ip in availableIpBlock.ips | filter:filters.block.type | filter:filters.block.search"
+                        data-ng-model="selected.ipBlock"
+                    >
+                        <option
+                            value=""
+                            data-translate="license_order_step1_ip_block_none"
+                        >
+                        </option>
+                    </select>
+                    <span
+                        class="input-group-addon"
+                        id="licenseOrderBlockFilters"
+                        oui-popover
+                        oui-popover-scope="popoverScope"
+                        oui-popover-template="license/tooltips/blockFilterTooltip.html"
+                    >
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </span>
+                </div>
+            </div>
+
+            <div
+                class="form-group"
+                data-ng-class="{
+                                'has-error': !ipValid.value
+                                }"
+            >
+                <label
+                    for="targetIp"
+                    class="control-label"
+                    data-translate="license_order_step1_ip"
+                >
+                </label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="targetIp"
+                    name="targetIp"
+                    data-ng-show="!oneIp"
+                    data-ng-model="selected.ip"
+                    data-ng-change="getOrderableVersion()"
+                    data-ng-disabled="selected.ipBlock === null"
+                    data-ui-validate="{ valid: 'ipIsValid($value)' }"
+                />
+                <p
+                    class="form-control-static"
+                    data-ng-show="oneIp"
+                    data-ng-bind="selected.ip"
+                ></p>
+            </div>
+
+            <div data-ng-switch="orderType">
+                <div data-ng-switch-when="VPS">
+                    <div
+                        data-ng-include="'license/order/license-order-vps.html'"
+                    ></div>
+                </div>
+                <div data-ng-switch-default>
+                    <ovh-manager-license-order-legacy
+                        data-ip="selected.ip"
+                        data-user="user"
+                        data-set-action="setAction(action, data)"
+                    ></ovh-manager-license-order-legacy>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+</div>
+
+<div id="currentAction" class="modal fade currentAction" data-role="dialog">
+    <div class="modal-dialog">
+        <div
+            id="modal-container"
+            class="modal-content"
+            data-ng-include="stepPath"
+        ></div>
+        <div id="modal-help" class="help4wizards" style="width: 230px;"></div>
+    </div>
+</div>

@@ -1,0 +1,10 @@
+{
+  "telephony_group_billing_tollfree_history_title": "SVA cost history",
+  "telephony_group_billing_tollfree_history_init_error": "Oops! An error occurred while initialising the SVA cost history.",
+  "telephony_group_billing_tollfree_history_download_error": "Oops! An error occurred while downloading the repayment details.",
+  "telephony_group_billing_tollfree_history_list_title": "Group SVA costs {{ groupName }}",
+  "telephony_group_billing_tollfree_history_list_date": "Billing date",
+  "telephony_group_billing_tollfree_history_list_price": "Bill amount",
+  "telephony_group_billing_tollfree_history_list_download_csv": "Repayment details (.CSV)",
+  "telephony_group_billing_tollfree_history_list_no_results": "No repayment found"
+}

@@ -1,0 +1,50 @@
+<oui-datagrid rows="$ctrl.nodesMapped" data-page-size="25" class="mt-5">
+    <oui-datagrid-column
+        data-title="'nutanix_dashboard_nodes_list_display_name' | translate"
+        data-property="iam.displayName"
+        data-sortable
+        data-searchable
+        data-filterable
+    >
+        <iam-protected-data is-hidden=":: $row.isHiddenNode">
+            <a
+                class="oui-link"
+                data-ui-sref="{{:: $ctrl.constructor.getNodeDetailsState($row.name) }}"
+                data-ng-bind=":: $row.iam.displayName"
+            >
+            </a>
+        </iam-protected-data>
+    </oui-datagrid-column>
+    <oui-datagrid-column
+        data-title="'nutanix_dashboard_nodes_list_type_of_server' | translate"
+        data-property="commercialRange"
+        data-sortable
+        data-searchable
+        data-filterable
+    >
+    </oui-datagrid-column>
+    <oui-datagrid-column
+        data-title="'nutanix_dashboard_nodes_list_status' | translate"
+        data-property="state"
+        data-sortable
+        data-type="options"
+        data-type-options="$ctrl.stateColumnOptions"
+        data-filterable
+    >
+        <iam-protected-data is-hidden=":: $row.isHiddenNode">
+            <span
+                class="{{'oui-badge ' + $ctrl.NODE_BADGE_STATE[$row.state] }}"
+                data-translate="{{ 'nutanix_dashboard_nodes_list_status_' + $row.state }}"
+            >
+            </span>
+        </iam-protected-data>
+    </oui-datagrid-column>
+    <oui-datagrid-column
+        data-title="'nutanix_dashboard_nodes_list_localisation' | translate"
+        data-property="datacenter"
+    >
+        <iam-protected-data is-hidden=":: $row.isHiddenNode">
+            <datacenter-name datacenter="$row.datacenter"> </datacenter-name>
+        </iam-protected-data>
+    </oui-datagrid-column>
+</oui-datagrid>

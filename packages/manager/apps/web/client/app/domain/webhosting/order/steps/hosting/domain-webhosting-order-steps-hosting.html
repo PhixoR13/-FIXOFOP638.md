@@ -1,0 +1,27 @@
+<oui-step-form
+    data-header="{{:: 'domain_webhosting_order_hosting_step_title' | translate }}"
+    data-position="{{::$ctrl.stepperPosition}}"
+    data-editable="!$ctrl.stepper.loadingCheckout"
+    data-valid="$ctrl.offer"
+    data-prevent-next
+    data-on-focus="$ctrl.onOptionEdit()"
+    data-on-submit="$ctrl.onOfferNextStepClick()"
+>
+    <oui-switch
+        name="switchDetails"
+        data-model="$ctrl.showDetails"
+        data-on-change="$ctrl.onChangeSwitchDetail()"
+    >
+    </oui-switch>
+    <span>&nbsp;</span>
+    <span data-translate="domain_webhosting_order_hosting_step_details"></span>
+    <web-component-hosting-domain-offers
+        data-ng-if="$ctrl.catalog"
+        data-user="$ctrl.user"
+        data-catalog="$ctrl.catalog"
+        data-offers="$ctrl.availableOffers"
+        data-show-details="$ctrl.showDetails"
+        data-on-group-offer-click="$ctrl.onHostingGroupOfferClick(groupOffer, versionOffer)"
+    >
+    </web-component-hosting-domain-offers>
+</oui-step-form>

@@ -1,0 +1,16 @@
+{
+  "xdsl_modem_device_status": "Connected devices",
+  "xdsl_modem_device_connected": "List of connected devices",
+  "xdsl_modem_device_show_none": "No device connected",
+  "xdsl_modem_device_show_many": "{{count}} connected devices",
+  "xdsl_modem_device_show_one": "{{count}} connected device",
+  "xdsl_modem_device_mac": "MAC address",
+  "xdsl_modem_device_ip": "IP address",
+  "xdsl_modem_device_host": "Name",
+  "xdsl_modem_device_connection_type": "Type",
+  "xdsl_modem_device_other": "Other",
+  "xdsl_modem_device_waiting_refresh": "Awaiting refresh",
+  "xdsl_modem_refresh": "Refresh",
+  "xdsl_modem_refresh_error": "Oops! We were unable to refresh the list of your connected devices.",
+  "xdsl_modem_connected_list_error": "Oops! We were unable to retrieve the list of your connected devices."
+}

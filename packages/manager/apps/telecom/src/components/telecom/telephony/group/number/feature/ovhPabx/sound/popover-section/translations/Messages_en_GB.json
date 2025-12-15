@@ -1,0 +1,10 @@
+{
+  "telephony_number_feature_ovh_pabx_sound_popover_section_add": "Add a tone",
+  "telephony_number_feature_ovh_pabx_sound_popover_section_bad_format": "Main formats: .wav, .mp3, .mp4, .ogg and .wma.",
+  "telephony_number_feature_ovh_pabx_sound_popover_section_bad_size": "File too large. Maximum size: 10 MB",
+  "telephony_number_feature_ovh_pabx_sound_popover_section_file_exists": "File name already added.",
+  "telephony_number_feature_ovh_pabx_sound_popover_section_bad_name": "Invalid file name. Cannot exceed 30 characters (letters, numbers, underscores or spaces).",
+  "telephony_number_feature_ovh_pabx_sound_popover_section_add_choose": "Add a new file",
+  "telephony_number_feature_ovh_pabx_sound_popover_section_add_explain": "Max. 10 MB Main formats: .wav, .mp3, .mp4, .ogg and .wma.",
+  "telephony_number_feature_ovh_pabx_sound_popover_section_existing_files": "Sounds already added:"
+}

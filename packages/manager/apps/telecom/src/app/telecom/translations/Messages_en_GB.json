@@ -1,0 +1,14 @@
+{
+  "common_tabs_more": "Other categories",
+  "common_newtab": "(new tab)",
+  "common_window": "(New window)",
+  "common_vip": "VIP status",
+  "common_table_header_type": "Type",
+  "common_table_edit": ": edit",
+  "common_table_delete": ": delete",
+  "common_table_validate_entry": ": add this entry",
+  "common_table_cancel_entry": ": cancel this entry",
+  "common_table_validate_modifications": ": confirm changes",
+  "common_table_cancel_modifications": ": cancel changes",
+  "common_required_fields": "Fields marked with an asterisk are mandatory."
+}

@@ -1,0 +1,13 @@
+{
+  "telephony_group_billing_bill_title": "Usage summary",
+  "telephony_group_billing_bill_subtitle": "Your summaries",
+  "telephony_group_billing_bill_empty": "No summary available",
+  "telephony_group_billing_bill_date": "Date",
+  "telephony_group_billing_bill_amount": "Amount ex. VAT:",
+  "telephony_group_billing_bill_paid": "Already paid",
+  "telephony_group_billing_bill_download": "Download",
+  "telephony_group_billing_bill_download_pdf": "Usage summary (PDF)",
+  "telephony_group_billing_bill_download_csv_emited": "List of issued calls (CSV)",
+  "telephony_group_billing_bill_download_csv_received": "List of received calls (CSV)",
+  "telephony_group_billing_bill_refresh": "Reload"
+}

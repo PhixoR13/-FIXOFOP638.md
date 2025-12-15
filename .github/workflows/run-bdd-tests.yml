@@ -1,0 +1,33 @@
+name: Run Jest tests
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout latest code
+        uses: actions/checkout@v3
+      - name: Use Node.js 22.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
+      - name: Restore/create node_modules cache
+        uses: actions/cache@v3
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-${{ hashFiles('yarn.lock') }}
+      - name: Install repository
+        run: yarn install --frozen-lockfile
+      - name: Build BDD covered packages and dependencies
+        run: |
+          yarn exec turbo -- run build --filter="./packages/manager/core/*" --concurrency=5
+          yarn exec turbo -- run build --filter="./packages/manager-react-components"
+          yarn exec turbo -- run build --filter="./packages/manager/modules/order"
+          yarn exec turbo -- run build --filter="./packages/manager/modules/common-api"
+          yarn exec turbo -- run build --filter="./packages/manager/modules/vcd-api"
+          yarn exec turbo -- run build --filter="./packages/manager/modules/manager-pci-common"
+      # This task is for running the jest tests outside microApps
+      - name: Run tests Jest
+        run: yarn test:jest
+      - name: Run tests Turbo
+        run: yarn test:turbo

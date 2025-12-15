@@ -1,0 +1,12 @@
+{
+  "xdsl_missing-rio_title": "Number portability",
+  "xdsl_missing-rio_leave-number_label": "Lose number: {{num}}",
+  "xdsl_missing-rio_port-number_label": "Keep phone number: {{num}}",
+  "xdsl_missing-rio_label": "Please enter the PAC code to port your number.",
+  "xdsl_missing-rio_label_tooltip": "How do I get a PAC code (Porting Authorisation Code)? It is a very simple process. Call 3179 for free from your landline: {{num}} This line is open 24/7. The PAC is a unique identifier that is 12 digits long.",
+  "xdsl_missing-rio_required": "This field is mandatory",
+  "xdsl_missing-rio_init_error": "Your case does not seem to be related to a PAC error, or you have not yet sent this information.",
+  "xdsl_missing-rio_send": "Confirm",
+  "xdsl_missing-rio_sent": "Your portability has been sent.",
+  "xdsl_missing-rio_error": "An error occurred while loading."
+}

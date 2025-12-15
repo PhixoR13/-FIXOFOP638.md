@@ -1,0 +1,14 @@
+{
+  "hostings_title": "Hosting-Pakete",
+  "hostings_order": "Bestellen",
+  "hostings_offer_starter": "Starter",
+  "hostings_offer_perso": "Basic",
+  "hostings_offer_pro": "Pro",
+  "hostings_offer_performance_1": "Performance 1",
+  "hostings_offer_performance_2": "Performance 2",
+  "hostings_offer_performance_3": "Performance 3",
+  "hostings_offer_performance_4": "Performance 4",
+  "hosting_offer_changing_datavis_tool": "Das Tool zur Visualisierung der Statistiken Ihres Webhostings wird verändert und ist vorübergehend nicht verfügbar. <a href=\"{{url}}\" target=\"_blank\">Sehen Sie sich die Wartungsseite an</a>, um den Fortschritt der Arbeiten zu verfolgen.",
+  "hostings_order_hosting": "Ein Hosting bestellen",
+  "hostings_order_sql": "Eine Datenbank bestellen"
+}

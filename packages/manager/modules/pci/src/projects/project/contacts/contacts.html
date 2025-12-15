@@ -1,0 +1,119 @@
+<oui-header class="mb-3">
+    <oui-header-heading>
+        <div class="d-flex justify-content-between">
+            <h1
+                class="oui-header__title"
+                data-translate="{{:: 'pci_projects_project_contacts_title' | translate }}"
+            ></h1>
+            <div
+                class="d-flex align-items-center gap-1 flex-wrap justify-content-end"
+            >
+                <changelog-button
+                    links="$ctrl.CHANGELOG.contacts.links"
+                    chapters="$ctrl.CHANGELOG.contacts.chapters"
+                ></changelog-button>
+                <oui-guide-menu
+                    data-text="{{:: 'pci_project_guides_header' | translate }}"
+                >
+                    <oui-guide-menu-item
+                        data-ng-repeat="guide in $ctrl.guideUrl.instances track by $index"
+                        data-href="{{:: guide.url }}"
+                        data-on-click="$ctrl.trackClick($ctrl.guideTrackingSectionTags.contacts_and_rights + guide.tracking)"
+                        data-external
+                    >
+                        <span
+                            data-translate="{{:: 'pci_project_guides_header_' + guide.key }}"
+                        ></span>
+                    </oui-guide-menu-item>
+                </oui-guide-menu>
+            </div>
+        </div>
+    </oui-header-heading>
+</oui-header>
+
+<pci-activate-project-banner
+    data-ng-if="$ctrl.isDiscoveryProject"
+    data-on-click="$ctrl.goToDiscoveryProjectActivationPage()"
+    data-tracking-page-name="PublicCloud::pci::projects::project::contacts"
+></pci-activate-project-banner>
+
+<div class="container-fluid p-4 bg-light border mb-4">
+    <div class="row">
+        <div
+            class="col-sm-4 text-right"
+            data-translate="cpb_rights_owner"
+        ></div>
+        <div class="col-sm-4" data-ng-bind="$ctrl.model.owner"></div>
+        <div class="col-sm-4">
+            <button
+                class="oui-button oui-button_icon-right oui-button_ghost"
+                data-ng-if="$ctrl.canChangeContacts()"
+                data-ng-click="$ctrl.openContacts()"
+            >
+                <span data-translate="cpb_rights_modify"></span>
+                <span
+                    class="oui-icon oui-icon-external-link"
+                    aria-hidden="true"
+                ></span>
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div
+            class="col-sm-4 text-right"
+            data-translate="cpb_rights_billing_contact"
+        ></div>
+        <div class="col-sm-4" data-ng-bind="$ctrl.model.billing"></div>
+        <div class="col-sm-4">
+            <button
+                class="oui-button oui-button_icon-right oui-button_ghost"
+                data-ng-if="$ctrl.canChangeContacts()"
+                data-ng-click="$ctrl.openContacts()"
+            >
+                <span data-translate="cpb_rights_modify"></span>
+                <span
+                    class="oui-icon oui-icon-external-link"
+                    aria-hidden="true"
+                ></span>
+            </button>
+        </div>
+    </div>
+</div>
+<p data-translate="cpb_rights_expl2"></p>
+<p
+    data-ng-if="!$ctrl.loader.rights"
+    data-translate="cpb_rights_note"
+    class="mb-4"
+></p>
+<oui-datagrid
+    data-rows="$ctrl.data.rights"
+    data-row-loader="$ctrl.transformItem($row)"
+>
+    <oui-datagrid-topbar>
+        <a
+            data-ui-sref="pci.projects.project.contacts.add"
+            class="oui-button oui-button_secondary mb-3"
+            data-ng-disabled="$ctrl.loader.rights || $ctrl.data.rightIds === null || $ctrl.isDiscoveryProject"
+            data-ng-if="$ctrl.model.isAdmin"
+            data-translate="common_add"
+        >
+        </a>
+    </oui-datagrid-topbar>
+    <oui-datagrid-column
+        data-property="accountId"
+        data-title="'cpb_rights_table_nichandle' | translate"
+    ></oui-datagrid-column>
+    <oui-datagrid-column
+        data-property="type"
+        data-title="'cpb_rights_table_rights' | translate"
+    >
+        <span
+            data-ng-bind="('cpb_rights_table_rights_value_' + $row.type) | translate"
+        ></span>
+    </oui-datagrid-column>
+    <oui-action-menu data-compact data-placement="end">
+        <oui-action-menu-item data-on-click="$ctrl.removeRight($row)"
+            ><span data-translate="delete"></span>
+        </oui-action-menu-item>
+    </oui-action-menu>
+</oui-datagrid>

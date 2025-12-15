@@ -1,0 +1,14 @@
+{
+  "telephony_options_group_title": "Group options",
+  "telephony_billing_account_administration_options_group_hiddenExternalNumber": "Usage summary",
+  "telephony_billing_account_administration_options_group_hiddenExternalNumber_label": "Hide incoming/outgoing calls on the usage summary",
+  "telephony_billing_account_administration_options_group_overrideDisplayedNumber": "Display internal/external number",
+  "telephony_billing_account_administration_options_group_overrideDisplayedNumber_info": "Very useful in a company. Display the standard number for your external calls and display your own number for internal calls to the company.",
+  "telephony_billing_account_administration_options_group_overrideDisplayedNumber_label": "Use a separate display for internal/external numbers",
+  "telephony_billing_account_administration_options_group_displayOnIncomingCall": "Display line description",
+  "telephony_billing_account_administration_options_group_displayOnIncomingCall_info": "Display the description of the lines during calls.",
+  "telephony_billing_account_administration_options_group_displayOnIncomingCall_label": "Display the description of the lines during calls",
+  "telephony_billing_account_administration_options_group_success_changing": "The group options have been updated.",
+  "telephony_billing_account_administration_options_group_error_loading": "Oops! An error occurred while retrieving the group options.",
+  "telephony_billing_account_administration_options_group_error_changing": "Oops! Unable to change group options."
+}

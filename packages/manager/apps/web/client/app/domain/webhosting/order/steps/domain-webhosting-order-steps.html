@@ -1,0 +1,35 @@
+<div class="text-center" data-ng-if="$ctrl.validatingCheckout">
+    <oui-spinner></oui-spinner>
+</div>
+
+<oui-stepper
+    data-current-index="$ctrl.currentIndex"
+    data-ng-if="!$ctrl.validatingCheckout"
+    data-on-finish="$ctrl.orderWebhosting()"
+>
+    <ovh-manager-web-domain-webhosting-order-steps-hosting
+        data-available-offers="$ctrl.availableOffers"
+        data-catalog="$ctrl.catalog"
+        data-user="$ctrl.user"
+        data-stepper-position="0"
+    >
+    </ovh-manager-web-domain-webhosting-order-steps-hosting>
+
+    <ovh-manager-web-domain-webhosting-order-steps-module
+        data-get-available-modules="$ctrl.getAvailableModules({ offer })"
+        data-stepper-position="1"
+    >
+    </ovh-manager-web-domain-webhosting-order-steps-module>
+
+    <ovh-manager-web-domain-webhosting-order-steps-dns-configuration
+        data-stepper-position="2"
+    >
+    </ovh-manager-web-domain-webhosting-order-steps-dns-configuration>
+
+    <ovh-manager-web-domain-webhosting-order-steps-duration
+        data-available-offers="$ctrl.availableOffers"
+        data-user="$ctrl.user"
+        data-stepper-position="3"
+    >
+    </ovh-manager-web-domain-webhosting-order-steps-duration>
+</oui-stepper>

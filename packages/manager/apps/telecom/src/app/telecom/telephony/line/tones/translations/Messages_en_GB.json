@@ -1,0 +1,21 @@
+{
+  "telephony_line_tones_title": "Music and sound management",
+  "telephony_line_tones_info1": "This page allows you to set music and ringtones for your line.<br /> You can choose from several customisations:",
+  "telephony_line_tones_info2": "<strong>Ringback tone</strong>: replaces the default ringback tone.",
+  "telephony_line_tones_info3": "<strong>Hold music</strong>: music played when the caller is on hold. The hold music will play if you put a caller on hold during a telephone conversation.",
+  "telephony_line_tones_info4": "<strong>Line busy announcement</strong>: announcement played when the line is busy. The announcement will be played during a direct call (without transferring via an easyPabX or miniPabx first). This does not connect the call to the recipient.",
+  "telephony_line_tones_ringback": "Ringback tone",
+  "telephony_line_tones_onhold": "Hold music",
+  "telephony_line_tones_callwaiting": "Line busy announcement",
+  "telephony_line_tones_type_custom_sound": "Custom",
+  "telephony_line_tones_type_none": "By default",
+  "telephony_line_tones_type_predefined_1": "Preset 1",
+  "telephony_line_tones_type_predefined_2": "Preset 2",
+  "telephony_line_tones_choose_file": "Select a file",
+  "telephony_line_tones_choose_file_confirm": "Send file",
+  "telephony_line_tones_choose_file_ring_success": "Ringtone updated",
+  "telephony_line_tones_choose_file_sound_success": "Music updated",
+  "telephony_line_tones_choose_file_announce_success": "Announcement updated",
+  "telephony_line_tones_choose_file_type_error": "The selected file format is not supported.",
+  "telephony_line_tones_apply": "Apply the changes"
+}

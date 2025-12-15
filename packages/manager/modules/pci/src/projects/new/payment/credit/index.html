@@ -1,0 +1,44 @@
+<div class="pci-project-new-payment-credit">
+    <strong
+        class="d-inline-block mb-3"
+        data-translate="pci_project_new_payment_credit_thanks"
+    >
+    </strong>
+    <p
+        data-translate="pci_project_new_payment_credit_explain"
+        data-translate-values="{ amount: $ctrl.amount }"
+    ></p>
+
+    <small data-translate="pci_project_new_payment_credit_info"></small>
+
+    <!-- footer -->
+    <div
+        class="actions-container d-md-flex flex-row-reverse justify-content-between align-items-center my-3"
+    >
+        <div class="d-flex align-items-center">
+            <oui-button
+                data-type="button"
+                data-variant="primary"
+                data-aria-label="{{ :: 'pci_project_new_payment_credit_credit_and_pay' | translate }}"
+                data-on-click="$ctrl.onCreditBtnClick()"
+                data-disabled="$ctrl.globalLoading.finalize"
+            >
+                <span
+                    data-ng-bind="$ctrl.viewOptions.creditBtnText || ('pci_project_new_payment_credit_credit_and_pay' | translate)"
+                ></span>
+            </oui-button>
+            <oui-spinner
+                class="ml-3"
+                data-ng-if="$ctrl.globalLoading.finalize"
+                data-size="s"
+            ></oui-spinner>
+        </div>
+
+        <a
+            data-ng-href="{{ :: $ctrl.getCancelHref() }}"
+            data-translate="pci_project_new_config_btn_cancel"
+            target="_top"
+        >
+        </a>
+    </div>
+</div>

@@ -1,0 +1,7 @@
+{
+  "telephony_alias_config_contactCenterSolution_scheduler_title": "Exceptional closures",
+  "telephony_alias_config_contactCenterSolution_scheduler_subtitle": "This schedule allows you to set exceptional time slots in order to set specific actions on your company’s closing days.",
+  "telephony_alias_config_contactCenterSolution_scheduler_category_title": "Categories",
+  "telephony_alias_config_contactCenterSolution_scheduler_closing_days_title": "Schedule closure days",
+  "telephony_alias_config_contactCenterSolution_scheduler_closing_days_subtitle": "Schedule recurring or one-off days where your callers will be redirected to voicemail or to another number."
+}

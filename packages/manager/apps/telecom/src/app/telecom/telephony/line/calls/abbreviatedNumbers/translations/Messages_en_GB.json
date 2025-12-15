@@ -1,0 +1,5 @@
+{
+  "telephony_line_actions_line_calls_abbreviated_numbers_title": "Speed dial numbers",
+  "telephony_line_actions_line_calls_abbreviated_numbers_explaination": "The speed dial numbers are 3 to 4-digit numbers that start with a 2.",
+  "telephony_line_actions_line_calls_abbreviated_numbers_pattern_error": "The field must contain a 3 to 4-digit number that starts with a 2."
+}

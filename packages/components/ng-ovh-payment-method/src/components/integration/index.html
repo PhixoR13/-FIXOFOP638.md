@@ -1,0 +1,28 @@
+<div
+    class="ovh-payment-method-integration"
+    data-ng-switch="$ctrl.paymentMethodType.integration"
+>
+    <div data-ng-switch-when="REDIRECT">
+        <ovh-payment-method-integration-redirect>
+            <div data-ng-transclude></div>
+        </ovh-payment-method-integration-redirect>
+    </div>
+
+    <div data-ng-switch-when="COMPONENT">
+        <ovh-payment-method-integration-component>
+            <ovh-payment-method-integration-component-adyen
+                callback="$ctrl.callback"
+                cancel-href="$ctrl.cancelHref"
+                initial-params="$ctrl.initialParams"
+            ></ovh-payment-method-integration-component-adyen>
+        </ovh-payment-method-integration-component>
+    </div>
+
+    <ovh-payment-method-integration-in-context data-ng-switch-when="IN_CONTEXT">
+    </ovh-payment-method-integration-in-context>
+
+    <ovh-payment-method-integration-iframe-vantiv
+        data-ng-switch-when="IFRAME_VANTIV"
+    >
+    </ovh-payment-method-integration-iframe-vantiv>
+</div>

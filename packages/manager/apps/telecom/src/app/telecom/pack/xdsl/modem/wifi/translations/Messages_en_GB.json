@@ -1,0 +1,15 @@
+{
+  "xdsl_modem_wifi_status_enabled": "WiFi enabled",
+  "xdsl_modem_detault_wifi_status_enabled": "WiFi enabled (default)",
+  "xdsl_modem_wifi_status_disabled": "WiFi disabled",
+  "xdsl_modem_default_wifi_status_disabled": "WiFi deactivated (default)",
+  "xdsl_modem_wifi_description": "WiFi mode allows you to configure the modem’s wireless network for your wireless hardware to connect to.",
+  "xdsl_modem_wifi_success_validation_on": "Enabling WiFi...",
+  "xdsl_modem_wifi_success_validation_off": "Disabling WiFi...",
+  "xdsl_modem_wifi_really_on": "Are you sure you want to enable WiFi?",
+  "xdsl_modem_wifi_really_off": "Are you sure you want to disable WiFi?",
+  "xdsl_modem_wifi_configure": "WiFi settings",
+  "xdsl_modem_wifi_configure_many": "Configure WiFi networks",
+  "xdsl_modem_wifi_read_error": "Oops! We were unable to retrieve the WiFi information.",
+  "xdsl_modem_wifi_update_error": "Oops! We were unable to update your modem’s WiFi."
+}

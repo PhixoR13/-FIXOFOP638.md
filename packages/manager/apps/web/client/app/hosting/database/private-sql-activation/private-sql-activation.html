@@ -1,0 +1,31 @@
+<oui-back-button
+    data-on-click="$ctrl.trackClick($ctrl.ACTIVATION_DATABASE_TRACKING.GO_BACK); $ctrl.goToHosting()"
+>
+    <span data-translate="privatesql_activation_back"></span>
+</oui-back-button>
+
+<ovh-manager-product-offers
+    data-pricing-type="$ctrl.productOffers.pricingType"
+    data-workflow-options=":: $ctrl.productOffers.workflowOptions"
+    data-workflow-type=":: $ctrl.productOffers.workflowType"
+    data-on-success=":: $ctrl.onSuccess(checkout)"
+    data-on-error=":: $ctrl.onError(error)"
+    data-send-current-state=":: $ctrl.getOrderState(state)"
+>
+    <oui-step-form
+        data-header="{{:: 'privatesql_activation_step_1' | translate }}"
+        data-valid="$ctrl.isValidDbConfig()"
+        data-prevent-next="true"
+        data-on-submit="$ctrl.onGoToNextStepClick()"
+        data-on-focus="$ctrl.onOptionEdit()"
+    >
+        <web-hosting-database-order-db-categories-offers
+            data-user="$ctrl.me"
+            data-db-categories="$ctrl.dbCategories"
+            data-preselect-db-category="$ctrl.preselectDbCategory"
+            data-on-db-category-click="$ctrl.onDbCategoryClick(dbCategory)"
+            data-on-db-category-engine-click="$ctrl.onDbCategoryEngineClick(dbEngine)"
+            data-model="$ctrl.model"
+        ></web-hosting-database-order-db-categories-offers>
+    </oui-step-form>
+</ovh-manager-product-offers>

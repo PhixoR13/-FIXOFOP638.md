@@ -1,0 +1,76 @@
+<section>
+    <h3 data-translate="iplb_configuration_title"></h3>
+    <p data-translate="iplb_configuration_intro"></p>
+
+    <div class="text-center" data-ng-if="$ctrl.zones.loading">
+        <oui-spinner></oui-spinner>
+    </div>
+
+    <oui-datagrid
+        data-ng-if="!$ctrl.zones.loading"
+        data-rows="$ctrl.zones.data"
+        data-selectable-rows
+    >
+        <oui-datagrid-topbar>
+            <oui-button
+                class="mb-3"
+                data-variant="secondary"
+                data-on-click="$ctrl.applyChanges($selectedRows)"
+                data-disabled="!$selectedRows.length"
+                ><span data-translate="iplb_configuration_action_apply"></span
+            ></oui-button>
+        </oui-datagrid-topbar>
+        <oui-datagrid-column
+            data-title=":: 'iplb_configuration_datacenter' | translate"
+            data-property="name"
+            data-sortable="asc"
+        ></oui-datagrid-column>
+        <oui-datagrid-column
+            data-title=":: 'iplb_configuration_progress' | translate"
+            data-sortable
+        >
+            <span
+                data-ng-if="$row.task.progress === 100 && $ctrl.applications[$row.id]"
+                data-translate="iplb_configuration_changesApplied"
+            ></span>
+            <oui-progress
+                data-compact
+                data-ng-if="$row.task && $row.task.progress !== 100"
+            >
+                <oui-progress-bar
+                    data-type="{{:: $ctrl.ServiceHelper.constructor.getTaskProgressType($row.task.status) }}"
+                    data-value="$row.task.progress"
+                ></oui-progress-bar>
+            </oui-progress>
+        </oui-datagrid-column>
+        <oui-datagrid-column
+            data-title=":: 'iplb_configuration_status' | translate"
+        >
+            <span
+                class="oui-badge"
+                data-ng-pluralize
+                data-ng-class="{
+                    'oui-badge_success': $row.changes === 0,
+                    'oui-badge_warning': $row.changes !== 0,
+                }"
+                data-count="$row.changes"
+                data-when="{
+                    '0': ('iplb_configuration_changes_0' | translate),
+                    '1': ('iplb_configuration_changes_1' | translate),
+                    'other': ('iplb_configuration_changes_count' | translate: { count: $row.changes }),
+                }"
+            ></span>
+        </oui-datagrid-column>
+        <oui-action-menu
+            data-disabled="!$isSelected"
+            data-compact
+            data-placement="end"
+        >
+            <oui-action-menu-item
+                data-on-click="$ctrl.applyChanges($row.id)"
+                data-disabled="$row.task.status && $row.task.status !== 'done'"
+                ><span data-translate="iplb_configuration_action_apply"></span>
+            </oui-action-menu-item>
+        </oui-action-menu>
+    </oui-datagrid>
+</section>

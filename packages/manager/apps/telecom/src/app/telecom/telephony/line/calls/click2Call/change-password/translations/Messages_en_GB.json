@@ -1,0 +1,10 @@
+{
+  "telephony_group_line_calls_click2call_changePassword_back": "Cancel user changes",
+  "telephony_group_line_calls_click2call_changePassword_title": "Change password for user {{name}}",
+  "telephony_group_line_calls_click2call_changePassword_password_placeholder": "Password",
+  "telephony_group_line_calls_click2call_changePassword_success": "User <strong>{{name}}</strong> changed. ",
+  "telephony_group_line_calls_click2call_changePassword_fail": "Oops! Unable to change the password for <strong>{{name}}</strong>.",
+  "telephony_group_line_calls_click2call_changePassword_rule_size": "Must contain between 8 and 20 characters",
+  "telephony_group_line_calls_click2call_changePassword_rule_special": "Must contain numbers, unaccented letters or {{list}}",
+  "telephony_group_line_calls_click2call_changePassword": "Modify password"
+}

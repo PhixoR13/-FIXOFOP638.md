@@ -1,0 +1,57 @@
+<div>
+    <ip-alerts
+        class="d-block mb-4"
+        data-service-type="selection.serviceType"
+    ></ip-alerts>
+    <h4 data-translate="ip_addresses_grid_header"></h4>
+    <div class="text-center" data-ng-if="loading">
+        <oui-spinner></oui-spinner>
+    </div>
+    <ip-list
+        data-ng-if="!loading"
+        data-go-to-antispam="goToAntispam"
+        data-go-to-firewall="goToFirewall"
+        data-go-to-game-firewall="goToGameFirewall"
+        data-go-to-organisation="goToOrganisation"
+        data-go-to-vrack="goToVrack"
+        data-order-ip-available="orderIpAvailable"
+        data-set-action="$parent.setAction"
+        data-track-click="trackClick"
+        data-track-page="trackPage"
+        data-tracking-data="trackingData"
+        data-params="listParams"
+        data-on-param-deleted="onListParamDeleted(param)"
+        data-go-to-statistics="goToStatistics"
+        data-is-delete-byoip-service-available="isDeleteByoipServiceAvailable"
+    >
+        <ip-list-header>
+            <div class="d-flex flex-column flex-lg-row">
+                <select
+                    class="form-control mr-3 mb-3"
+                    id="serviceTypeSelector"
+                    name="serviceTypeSelector"
+                    data-ng-model="ipScope.selection.serviceType"
+                    data-ng-change="ipScope.select({ serviceType: ipScope.selection.serviceType, service: null })"
+                    data-ng-options="serviceType as (('ip_filter_service_type_' + serviceType) | translate) for serviceType in ipScope.serviceTypes track by serviceType"
+                >
+                    <option
+                        value=""
+                        data-ng-bind="'ip_filter_service_type_all' | translate"
+                    ></option>
+                </select>
+                <oui-select
+                    class="w-100"
+                    items="ipScope.services"
+                    match="displayName"
+                    model="ipScope.selection.service"
+                    name="service"
+                    placeholder="{{:: 'ip_filter_services__ALL' | translate}}"
+                    group-by="ipScope.getServiceTypeLabel"
+                    data-on-change="ipScope.select({ service: modelValue, serviceType: null })"
+                    searchable
+                >
+                </oui-select>
+            </div>
+        </ip-list-header>
+    </ip-list>
+</div>
